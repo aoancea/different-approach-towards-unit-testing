@@ -11,6 +11,8 @@ namespace Ragnar.Mock.BankAccount.Model
 
     public struct Policy
     {
+        public int Order { get; set; }
+
         public PolicyType Type { get; set; }
 
         public ComparisonAction Action { get; set; }
@@ -23,7 +25,7 @@ namespace Ragnar.Mock.BankAccount.Model
     public enum PolicyType
     {
         Amount = 1,
-        Age = 2
+        Age = 2 // this can used as an example of a later implementation where each PolicyType is handled by a PolicyTypeHelper resulting in the addition of more Mocks
     }
 
     public enum ComparisonAction

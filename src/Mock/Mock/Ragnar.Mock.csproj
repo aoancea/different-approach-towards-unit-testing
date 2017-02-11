@@ -40,12 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BankAccount\InterestCalculator\Helpers\PolicyHelper.cs" />
     <Compile Include="BankAccount\Model\Bank.cs" />
     <Compile Include="BankAccount\Model\BankInterestRate.cs" />
     <Compile Include="BankAccount\Model\TaxSystem.cs" />
     <Compile Include="BankAccount\Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
