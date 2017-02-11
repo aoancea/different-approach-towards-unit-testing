@@ -1,4 +1,4 @@
-﻿namespace Ragnar.Mock.BankAccount.Model
+﻿namespace Ragnar.Mock.Interest.Model
 {
     public class Bank
     {

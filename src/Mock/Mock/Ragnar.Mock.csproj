@@ -40,11 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BankAccount\InterestCalculator\Helpers\PolicyHelper.cs" />
-    <Compile Include="BankAccount\Model\Bank.cs" />
-    <Compile Include="BankAccount\Model\BankInterestRate.cs" />
-    <Compile Include="BankAccount\Model\TaxSystem.cs" />
-    <Compile Include="BankAccount\Model\User.cs" />
+    <Compile Include="Interest\InterestCalculator\Helpers\PolicyHelper.cs" />
+    <Compile Include="Interest\Model\Bank.cs" />
+    <Compile Include="Interest\Model\BankInterestRate.cs" />
+    <Compile Include="Interest\Model\TaxSystem.cs" />
+    <Compile Include="Interest\Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
