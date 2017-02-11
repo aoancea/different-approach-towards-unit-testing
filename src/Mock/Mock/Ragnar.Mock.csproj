@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="BankAccount\Model\Bank.cs" />
     <Compile Include="BankAccount\Model\BankInterestRate.cs" />
+    <Compile Include="BankAccount\Model\TaxSystem.cs" />
     <Compile Include="BankAccount\Model\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
