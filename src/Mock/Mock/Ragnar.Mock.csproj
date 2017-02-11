@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Interest\InterestCalculator\Helpers\PolicyHelper.cs" />
     <Compile Include="Interest\Model\Bank.cs" />
+    <Compile Include="Interest\Model\BankAccount.cs" />
     <Compile Include="Interest\Model\BankInterestRate.cs" />
     <Compile Include="Interest\Model\TaxSystem.cs" />
     <Compile Include="Interest\Model\User.cs" />
