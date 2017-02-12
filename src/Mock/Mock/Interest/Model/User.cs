@@ -1,4 +1,4 @@
-﻿namespace Ragnar.Mock.Interest.Model
+﻿namespace Ragnar.MockDriven.Interest.Model
 {
     public class User
     {

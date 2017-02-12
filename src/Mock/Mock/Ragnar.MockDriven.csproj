@@ -7,8 +7,8 @@
     <ProjectGuid>{B8630CBC-4403-4258-9340-5B4362FD7D36}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ragnar.Mock</RootNamespace>
-    <AssemblyName>Ragnar.Mock</AssemblyName>
+    <RootNamespace>Ragnar.MockDriven</RootNamespace>
+    <AssemblyName>Ragnar.MockDriven</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
