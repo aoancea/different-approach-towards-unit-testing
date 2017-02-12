@@ -5,9 +5,9 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mock", "Mock", "{04E168A9-8C05-481D-A270-E1FF8B497F2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ragnar.MockDriven", "Mock\Mock\Ragnar.MockDriven.csproj", "{B8630CBC-4403-4258-9340-5B4362FD7D36}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ragnar.MockDriven", "MockDriven\MockDriven\Ragnar.MockDriven.csproj", "{B8630CBC-4403-4258-9340-5B4362FD7D36}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ragnar.MockDriven.UnitTesting", "Mock\UnitTesting\Ragnar.MockDriven.UnitTesting.csproj", "{B2E82259-2EC2-49EF-9268-CBFF5A32B12C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ragnar.MockDriven.UnitTesting", "MockDriven\UnitTesting\Ragnar.MockDriven.UnitTesting.csproj", "{B2E82259-2EC2-49EF-9268-CBFF5A32B12C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
