@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ragnar.MockDriven.Interest.InterestCalculator.Helpers
+namespace Ragnar.MockDriven.Interest.Calculator.Helpers
 {
     public interface IPolicyHelper
     {

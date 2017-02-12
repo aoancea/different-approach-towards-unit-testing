@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interest\InterestCalculator\Helpers\PolicyHelper.cs" />
+    <Compile Include="Interest\Calculator\Helpers\PolicyHelper.cs" />
     <Compile Include="Interest\Model\Bank.cs" />
     <Compile Include="Interest\Model\BankAccount.cs" />
     <Compile Include="Interest\Model\BankInterestRate.cs" />
