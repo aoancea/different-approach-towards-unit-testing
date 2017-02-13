@@ -2,14 +2,18 @@
 {
     public interface IInterestHelper
     {
-        Contract.Interest BuildInterest(decimal amount, Contract.Tax tax);
+        Contract.Interest Interest(decimal amount, Contract.Tax tax);
     }
 
     public class InterestHelper : IInterestHelper
     {
-        public Contract.Interest BuildInterest(decimal amount, Contract.Tax tax)
+        public Contract.Interest Interest(decimal amount, Contract.Tax tax)
         {
-            return null;
+            Contract.Interest interest = new Contract.Interest();
+            interest.AsGross = amount;
+            interest.AsNet = amount - tax.AsValue;
+
+            return interest;
         }
     }
 }

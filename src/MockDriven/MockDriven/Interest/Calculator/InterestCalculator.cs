@@ -7,13 +7,19 @@ namespace Ragnar.MockDriven.Interest.Calculator
     {
         private readonly Repository.IBankRepository bankRepository;
         private readonly Helpers.IPolicyHelper policyHelper;
+        private readonly Helpers.ITaxHelper taxHelper;
+        private readonly Helpers.IInterestHelper interestHelper;
 
         public InterestCalculator(
             Repository.IBankRepository bankRepository,
-            Helpers.IPolicyHelper policyHelper)
+            Helpers.IPolicyHelper policyHelper,
+            Helpers.ITaxHelper taxHelper,
+            Helpers.IInterestHelper interestHelper)
         {
             this.bankRepository = bankRepository;
             this.policyHelper = policyHelper;
+            this.taxHelper = taxHelper;
+            this.interestHelper = interestHelper;
         }
 
         public Contract.DepositProjectionSummary ProjectDepositSummary(Guid userId, Guid bankId, Guid depositId)
@@ -52,13 +58,8 @@ namespace Ragnar.MockDriven.Interest.Calculator
                 }
             }
 
-            Contract.Tax tax = new Contract.Tax();
-            tax.AsPercentage = taxValue;
-            tax.AsValue = depositInterest * taxValue;
-
-            Contract.Interest interest = new Contract.Interest();
-            interest.AsGross = depositInterest;
-            interest.AsNet = depositInterest - tax.AsValue;
+            Contract.Tax tax = taxHelper.Tax(depositInterest, taxValue);
+            Contract.Interest interest = interestHelper.Interest(depositInterest, tax);
 
             return new Contract.DepositProjectionSummary()
             {

@@ -1,17 +1,19 @@
-﻿using System;
-
-namespace Ragnar.MockDriven.Interest.Calculator.Helpers
+﻿namespace Ragnar.MockDriven.Interest.Calculator.Helpers
 {
     public interface ITaxHelper
     {
-        Contract.Tax ConvertoToTax();
+        Contract.Tax Tax(decimal depositInterest, decimal taxValue);
     }
 
     public class TaxHelper : ITaxHelper
     {
-        public Contract.Tax ConvertoToTax()
+        public Contract.Tax Tax(decimal depositInterest, decimal taxValue)
         {
-            throw new NotImplementedException();
+            Contract.Tax tax = new Contract.Tax();
+            tax.AsPercentage = taxValue;
+            tax.AsValue = depositInterest * taxValue;
+
+            return tax;
         }
     }
 }
