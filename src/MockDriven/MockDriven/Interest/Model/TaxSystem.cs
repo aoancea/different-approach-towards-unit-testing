@@ -6,10 +6,10 @@ namespace Ragnar.MockDriven.Interest.Model
     {
         public DateTime StartDate { get; set; }
 
-        public Policy[] Policies { get; set; }
+        public TaxPolicy[] TaxPolicies { get; set; }
     }
 
-    public struct Policy
+    public class TaxPolicy
     {
         public int Order { get; set; }
 
@@ -24,9 +24,7 @@ namespace Ragnar.MockDriven.Interest.Model
 
     public enum PolicyType
     {
-        Amount = 1,
-        TaxValue,
-        //Age = 2 // this can used as an example of a later implementation where each PolicyType is handled by a PolicyTypeHelper resulting in the addition of more Mocks
+        TaxPercentage = 1, // this is the default or global tax percentage
     }
 
     public enum ComparisonAction

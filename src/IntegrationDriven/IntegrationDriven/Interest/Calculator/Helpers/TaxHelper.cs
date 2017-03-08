@@ -2,16 +2,16 @@
 {
     public interface ITaxHelper
     {
-        Contract.Tax Tax(decimal depositInterest, decimal taxValue);
+        Contract.Tax Tax(decimal depositInterest, decimal taxPercentage);
     }
 
     public class TaxHelper : ITaxHelper
     {
-        public Contract.Tax Tax(decimal depositInterest, decimal taxValue)
+        public Contract.Tax Tax(decimal depositInterest, decimal taxPercentage)
         {
             Contract.Tax tax = new Contract.Tax();
-            tax.AsPercentage = taxValue;
-            tax.AsValue = depositInterest * taxValue;
+            tax.AsPercentage = taxPercentage;
+            tax.AsValue = depositInterest * taxPercentage;
 
             return tax;
         }

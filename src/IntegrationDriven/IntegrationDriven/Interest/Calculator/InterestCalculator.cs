@@ -43,16 +43,16 @@ namespace Ragnar.IntegrationDriven.Interest.Calculator
 
             decimal depositInterest = deposit.Amount * actualInterestRate;
 
-            decimal taxValue = 0;
-            foreach (Model.Policy policy in taxSystem.Policies)
+            decimal taxPercentage = 0;
+            foreach (Model.TaxPolicy taxPolicy in taxSystem.TaxPolicies)
             {
-                switch (policy.Type)
+                switch (taxPolicy.Type)
                 {
-                    case Model.PolicyType.TaxValue:
+                    case Model.PolicyType.TaxPercentage:
                         {
-                            if (comparisonHelper.Compare(policy.Action, deposit.Amount, (decimal)policy.ComparisonValue))
+                            if (comparisonHelper.Compare(taxPolicy.Action, deposit.Amount, (decimal)taxPolicy.ComparisonValue))
                             {
-                                taxValue += policy.TaxValue;
+                                taxPercentage += taxPolicy.TaxValue;
                             }
                         }
                         break;
@@ -62,7 +62,7 @@ namespace Ragnar.IntegrationDriven.Interest.Calculator
                 }
             }
 
-            Contract.Tax tax = taxHelper.Tax(depositInterest, taxValue);
+            Contract.Tax tax = taxHelper.Tax(depositInterest, taxPercentage);
             Contract.Interest interest = interestHelper.Interest(depositInterest, tax);
 
             return new Contract.DepositProjectionSummary()
