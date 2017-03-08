@@ -31,8 +31,10 @@ namespace Ragnar.MockDriven.Interest.Calculator
             Model.BankInterestRate interestRate = bank.Rates.First(x => x.StartDate >= deposit.StartDate && x.StartDate <= deposit.EndDate);
 
             Model.TaxSystem taxSystem = bank.TaxSystem.First(x => x.Key >= deposit.StartDate && x.Key <= deposit.EndDate).Value;
-
-            int depositDaysActive = DepositDaysActive(deposit);
+            
+            // move them first in their own Helpers
+            // then remove the first helper and move the code in the 2nd one
+            int depositDaysActive = DepositDaysActive(deposit); // loose this and build it inside ActualInterestRate
 
             decimal actualInterestRate = ActualInterestRate(interestRate, depositDaysActive);
 
@@ -44,7 +46,7 @@ namespace Ragnar.MockDriven.Interest.Calculator
                 //policyHelper.ApplyPolicy(policy);
                 switch (policy.Type)
                 {
-                    case Model.PolicyType.Amount:
+                    case Model.PolicyType.TaxValue:
                         {
                             if (Compare(policy.Action, deposit.Amount, (decimal)policy.ComparisonValue))
                             {

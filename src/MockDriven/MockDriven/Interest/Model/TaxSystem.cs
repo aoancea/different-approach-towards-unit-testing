@@ -25,6 +25,7 @@ namespace Ragnar.MockDriven.Interest.Model
     public enum PolicyType
     {
         Amount = 1,
+        TaxValue,
         //Age = 2 // this can used as an example of a later implementation where each PolicyType is handled by a PolicyTypeHelper resulting in the addition of more Mocks
     }
 
