@@ -9,17 +9,20 @@ namespace Ragnar.IntegrationDriven.Interest.Calculator
         private readonly Helpers.IPolicyHelper policyHelper;
         private readonly Helpers.ITaxHelper taxHelper;
         private readonly Helpers.IInterestHelper interestHelper;
+        private readonly Helpers.IComparisonHelper comparisonHelper;
 
         public InterestCalculator(
             Repository.IBankRepository bankRepository,
             Helpers.IPolicyHelper policyHelper,
             Helpers.ITaxHelper taxHelper,
-            Helpers.IInterestHelper interestHelper)
+            Helpers.IInterestHelper interestHelper,
+            Helpers.IComparisonHelper comparisonHelper)
         {
             this.bankRepository = bankRepository;
             this.policyHelper = policyHelper;
             this.taxHelper = taxHelper;
             this.interestHelper = interestHelper;
+            this.comparisonHelper = comparisonHelper;
         }
 
         public Contract.DepositProjectionSummary ProjectDepositSummary(Guid userId, Guid bankId, Guid depositId)
@@ -31,7 +34,7 @@ namespace Ragnar.IntegrationDriven.Interest.Calculator
             Model.BankInterestRate interestRate = bank.Rates.First(x => x.StartDate >= deposit.StartDate && x.StartDate <= deposit.EndDate);
 
             Model.TaxSystem taxSystem = bank.TaxSystem.First(x => x.Key >= deposit.StartDate && x.Key <= deposit.EndDate).Value;
-            
+
             // move them first in their own Helpers
             // then remove the first helper and move the code in the 2nd one
             int depositDaysActive = DepositDaysActive(deposit); // loose this and build it inside ActualInterestRate
@@ -43,12 +46,11 @@ namespace Ragnar.IntegrationDriven.Interest.Calculator
             decimal taxValue = 0;
             foreach (Model.Policy policy in taxSystem.Policies)
             {
-                //policyHelper.ApplyPolicy(policy);
                 switch (policy.Type)
                 {
                     case Model.PolicyType.TaxValue:
                         {
-                            if (Compare(policy.Action, deposit.Amount, (decimal)policy.ComparisonValue))
+                            if (comparisonHelper.Compare(policy.Action, deposit.Amount, (decimal)policy.ComparisonValue))
                             {
                                 taxValue += policy.TaxValue;
                             }
@@ -84,82 +86,6 @@ namespace Ragnar.IntegrationDriven.Interest.Calculator
             decimal interestPerDay = interestRate.Value / 365;
 
             return interestPerDay * depositDaysActive;
-        }
-
-
-        private bool Compare<T>(Model.ComparisonAction comparisonAction, T value1, T value2) where T : IComparable
-        {
-            switch (comparisonAction)
-            {
-                case Model.ComparisonAction.LessThan:
-                    return CompareLessThan(value1, value2);
-
-                case Model.ComparisonAction.LessOrEqualThan:
-                    return CompareLessThan(value1, value2) || CompareEqual(value1, value2);
-
-                case Model.ComparisonAction.Equal:
-                    return CompareEqual(value1, value2);
-
-                case Model.ComparisonAction.GreaterOrEqualThan:
-                    return CompareGreaterThan(value1, value2) || CompareEqual(value1, value2);
-
-                case Model.ComparisonAction.GreaterThan:
-                    return CompareGreaterThan(value1, value2);
-
-                default:
-                    return false;
-            }
-        }
-
-        private bool CompareLessThan<T>(T value1, T value2) where T : IComparable
-        {
-            if (value1 == null && value2 == null)
-                return true;
-
-            if (value1 == null || value2 == null)
-                return false;
-
-            Type value1Type = value1.GetType();
-            Type value2Type = value2.GetType();
-
-            if (value1Type != value2Type)
-                return false;
-
-            return value1.CompareTo(value2) < 0;
-        }
-
-        private bool CompareEqual<T>(T value1, T value2) where T : IComparable
-        {
-            if (value1 == null && value2 == null)
-                return true;
-
-            if (value1 == null || value2 == null)
-                return false;
-
-            Type value1Type = value1.GetType();
-            Type value2Type = value2.GetType();
-
-            if (value1Type != value2Type)
-                return false;
-
-            return value1.CompareTo(value2) == 0;
-        }
-
-        private bool CompareGreaterThan<T>(T value1, T value2) where T : IComparable
-        {
-            if (value1 == null && value2 == null)
-                return true;
-
-            if (value1 == null || value2 == null)
-                return false;
-
-            Type value1Type = value1.GetType();
-            Type value2Type = value2.GetType();
-
-            if (value1Type != value2Type)
-                return false;
-
-            return value1.CompareTo(value2) > 0;
         }
     }
 }
