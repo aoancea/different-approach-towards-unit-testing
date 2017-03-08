@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interest\Calculator\Contract\IInterestCalculator.cs" />
+    <Compile Include="Interest\Calculator\Helpers\ComparisonHelper.cs" />
     <Compile Include="Interest\Calculator\Helpers\InterestHelper.cs" />
     <Compile Include="Interest\Calculator\Helpers\PolicyHelper.cs" />
     <Compile Include="Interest\Calculator\Helpers\TaxHelper.cs" />

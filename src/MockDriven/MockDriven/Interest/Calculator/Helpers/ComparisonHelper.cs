@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ragnar.IntegrationDriven.Interest.Calculator.Helpers
+namespace Ragnar.MockDriven.Interest.Calculator.Helpers
 {
     public interface IComparisonHelper
     {
