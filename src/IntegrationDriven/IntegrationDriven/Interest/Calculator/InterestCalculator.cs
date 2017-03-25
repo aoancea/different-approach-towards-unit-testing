@@ -63,7 +63,7 @@ namespace Ragnar.IntegrationDriven.Interest.Calculator
             }
 
             Contract.Tax tax = taxHelper.Tax(depositInterest, taxPercentage);
-            Contract.Interest interest = interestHelper.Interest(depositInterest, tax);
+            Contract.Interest interest = interestHelper.Interest(depositInterest, taxPercentage);
 
             return new Contract.DepositProjectionSummary()
             {
