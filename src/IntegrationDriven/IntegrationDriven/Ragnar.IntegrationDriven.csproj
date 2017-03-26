@@ -53,6 +53,7 @@
     <Compile Include="Interest\Model\TaxSystem.cs" />
     <Compile Include="Interest\Model\User.cs" />
     <Compile Include="Interest\Repository\IBankRepository.cs" />
+    <Compile Include="Interest\Repository\IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
