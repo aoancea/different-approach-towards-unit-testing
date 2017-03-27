@@ -61,6 +61,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Interest\Calculator\InterestCalculatorTest.cs" />
+    <Compile Include="Interest\Calculator\ScenarioHelper.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -69,7 +70,12 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\MockDriven\Ragnar.MockDriven.csproj">
+      <Project>{b8630cbc-4403-4258-9340-5b4362fd7d36}</Project>
+      <Name>Ragnar.MockDriven</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

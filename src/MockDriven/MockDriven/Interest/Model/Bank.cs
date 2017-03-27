@@ -5,6 +5,8 @@ namespace Ragnar.MockDriven.Interest.Model
 {
     public class Bank
     {
+        public Guid Id { get; set; }
+
         public string Name { get; set; }
 
         public BankInterestRate[] Rates { get; set; }
