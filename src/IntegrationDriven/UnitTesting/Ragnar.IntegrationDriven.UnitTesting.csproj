@@ -43,6 +43,10 @@
       <HintPath>..\..\packages\Moq.4.5.30\lib\net45\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SimpleInjector, Version=3.2.7.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SimpleInjector.3.2.7\lib\net45\SimpleInjector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -53,16 +57,27 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Interest\Calculator\InterestCalculatorTest.cs" />
+    <Compile Include="Interest\ScenarioHelper.cs" />
+    <Compile Include="Interest\UnitTestBootstrapper.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IntegrationDriven\Ragnar.IntegrationDriven.csproj">
+      <Project>{28e944ac-50ef-4cd7-86d3-736ee29e29c4}</Project>
+      <Name>Ragnar.IntegrationDriven</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

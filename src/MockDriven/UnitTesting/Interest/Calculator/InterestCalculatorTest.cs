@@ -61,8 +61,8 @@ namespace Ragnar.MockDriven.UnitTesting.Interest.Calculator
 
             MockDriven.Interest.Calculator.Contract.DepositProjectionSummary summary = interestCalculator.ProjectDepositSummary(Guid.NewGuid(), bank.Id, deposit.ID);
 
-            Assert.AreEqual(3M, summary.Interest.AsGross); // the right value is actually 0.0299178082191780821917808284M
-            Assert.AreEqual(3M, summary.Interest.AsNet); // the right value is actually 0.0299178082191780821917808284M
+            Assert.AreEqual(3M, summary.Interest.AsGross); // the right value is actually 2.9917808219178082191780828400M
+            Assert.AreEqual(3M, summary.Interest.AsNet); // the right value is actually 2.9917808219178082191780828400M
         }
     }
 }
