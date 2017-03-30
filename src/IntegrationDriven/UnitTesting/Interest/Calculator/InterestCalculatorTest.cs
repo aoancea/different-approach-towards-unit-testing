@@ -1,5 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Ragnar.IntegrationDriven.Interest.Calculator.Contract;
+using Ragnar.IntegrationDriven.Interest.Calculator.Helpers;
+using Ragnar.IntegrationDriven.Interest.Model;
+using Ragnar.IntegrationDriven.Interest.Repository;
 using SimpleInjector;
 using System;
 
@@ -8,7 +12,7 @@ namespace Ragnar.IntegrationDriven.UnitTesting.Interest.Calculator
     [TestClass]
     public class InterestCalculatorTest
     {
-        private Mock<IntegrationDriven.Interest.Repository.IBankRepository> bankRepositoryMock;
+        private Mock<IBankRepository> bankRepositoryMock;
 
         private Container container;
 
@@ -17,7 +21,7 @@ namespace Ragnar.IntegrationDriven.UnitTesting.Interest.Calculator
         [TestInitialize]
         public void TestInitialize()
         {
-            bankRepositoryMock = new Mock<IntegrationDriven.Interest.Repository.IBankRepository>(MockBehavior.Strict);
+            bankRepositoryMock = new Mock<IBankRepository>(MockBehavior.Strict);
 
             container = new Container();
 
@@ -25,34 +29,68 @@ namespace Ragnar.IntegrationDriven.UnitTesting.Interest.Calculator
 
             interestCalculator = new IntegrationDriven.Interest.Calculator.InterestCalculator(
                 bankRepository: bankRepositoryMock.Object,
-                policyHelper: container.GetInstance<IntegrationDriven.Interest.Calculator.Helpers.IPolicyHelper>(),
-                taxHelper: container.GetInstance<IntegrationDriven.Interest.Calculator.Helpers.ITaxHelper>(),
-                interestHelper: container.GetInstance<IntegrationDriven.Interest.Calculator.Helpers.IInterestHelper>(),
-                comparisonHelper: container.GetInstance<IntegrationDriven.Interest.Calculator.Helpers.IComparisonHelper>());
+                policyHelper: container.GetInstance<IPolicyHelper>(),
+                taxHelper: container.GetInstance<ITaxHelper>(),
+                interestHelper: container.GetInstance<IInterestHelper>(),
+                comparisonHelper: container.GetInstance<IComparisonHelper>());
         }
 
         [TestMethod]
         public void InterestCalculatorTest_ProjectDepositSummary_ApplyInterestRateOnly_ReturnProjectedSummary()
         {
-            IntegrationDriven.Interest.Model.Bank bank = ScenarioHelper.CreateBank(id: Guid.NewGuid(), name: "BT");
+            Bank bank = ScenarioHelper.CreateBank(id: Guid.NewGuid(), name: "BT");
 
-            IntegrationDriven.Interest.Model.TaxSystem taxSystem = bank.AddTaxSystem(effectiveDate: new DateTime(2017, 01, 01));
+            TaxSystem taxSystem = bank.AddTaxSystem(effectiveDate: new DateTime(2017, 01, 01));
 
-            IntegrationDriven.Interest.Model.BankInterestRate bankInterestRate = bank.AddInterestRate(startDate: new DateTime(2017, 01, 01), value: 0.03M);
+            BankInterestRate bankInterestRate = bank.AddInterestRate(startDate: new DateTime(2017, 01, 01), value: 0.03M);
 
-            IntegrationDriven.Interest.Model.BankAccount bankAccount = bank.AddBankAccount(id: Guid.NewGuid());
+            BankAccount bankAccount = bank.AddBankAccount(id: Guid.NewGuid());
 
-            IntegrationDriven.Interest.Model.Deposit deposit = bankAccount.AddDeposit(startDate: new DateTime(2017, 01, 01), endDate: new DateTime(2017, 12, 31), id: Guid.NewGuid(), amount: 100);
+            Deposit deposit = bankAccount.AddDeposit(startDate: new DateTime(2017, 01, 01), endDate: new DateTime(2017, 12, 31), id: Guid.NewGuid(), amount: 100);
 
             SetupMocks(bank);
 
-            IntegrationDriven.Interest.Calculator.Contract.DepositProjectionSummary summary = interestCalculator.ProjectDepositSummary(ScenarioHelper.userId, bank.Id, deposit.ID);
+            DepositProjectionSummary summary = interestCalculator.ProjectDepositSummary(ScenarioHelper.userId, bank.Id, deposit.ID);
 
-            Assert.AreEqual(2.9917808219178082191780828400M, summary.Interest.AsGross);
-            Assert.AreEqual(2.9917808219178082191780828400M, summary.Interest.AsNet);
+            Assert.AreEqual(deposit.ID, summary.DepositID);
+            Assert.AreEqual(deposit.StartDate, summary.StartDate);
+            Assert.AreEqual(deposit.EndDate, summary.EndDate);
+            Assert.AreEqual(deposit.Amount, summary.InitialAmount);
+            Assert.AreEqual(2.9917808219178082191780828400M, summary.Interest.AsGross); // should be 3M
+            Assert.AreEqual(2.9917808219178082191780828400M, summary.Interest.AsNet); // should be 3M
+            Assert.AreEqual(0M, summary.Tax.AsPercentage);
+            Assert.AreEqual(0M, summary.Tax.AsValue);
         }
 
-        private void SetupMocks(IntegrationDriven.Interest.Model.Bank bank)
+        [TestMethod]
+        public void InterestCalculatorTest_ProjectDepositSummary_ApplyInterestRateAndTaxIfEqual_ReturnProjectedSummary()
+        {
+            Bank bank = ScenarioHelper.CreateBank(id: Guid.NewGuid(), name: "BT");
+
+            bank.AddTaxSystem(effectiveDate: new DateTime(2017, 01, 01))
+                .AddTaxPolicy(policyType: PolicyType.TaxPercentage, comparisonAction: ComparisonAction.Equal, comparisonValue: 480000M, taxValue: 0.16M, order: 0);
+
+            BankInterestRate bankInterestRate = bank.AddInterestRate(startDate: new DateTime(2017, 01, 01), value: 0.03M);
+
+            BankAccount bankAccount = bank.AddBankAccount(id: Guid.NewGuid());
+
+            Deposit deposit = bankAccount.AddDeposit(startDate: new DateTime(2017, 01, 01), endDate: new DateTime(2017, 12, 31), id: Guid.NewGuid(), amount: 480000M);
+
+            SetupMocks(bank);
+
+            DepositProjectionSummary summary = interestCalculator.ProjectDepositSummary(ScenarioHelper.userId, bank.Id, deposit.ID);
+
+            Assert.AreEqual(deposit.ID, summary.DepositID);
+            Assert.AreEqual(deposit.StartDate, summary.StartDate);
+            Assert.AreEqual(deposit.EndDate, summary.EndDate);
+            Assert.AreEqual(deposit.Amount, summary.InitialAmount);
+            Assert.AreEqual(14360.547945205479452054797632M, summary.Interest.AsGross); // should be 14400M
+            Assert.AreEqual(12062.860273972602739726030011M, summary.Interest.AsNet); // should be 12096M
+            Assert.AreEqual(0.16M, summary.Tax.AsPercentage);
+            Assert.AreEqual(2297.6876712328767123287676211M, summary.Tax.AsValue); // should be 2304M
+        }
+
+        private void SetupMocks(Bank bank)
         {
             bankRepositoryMock.Setup(x => x.Detail(bank.Id, ScenarioHelper.userId)).Returns(bank);
         }

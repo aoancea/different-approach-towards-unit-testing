@@ -46,11 +46,11 @@ namespace Ragnar.MockDriven.Interest.Calculator
             decimal taxPercentage = 0;
             foreach (Model.TaxPolicy taxPolicy in taxSystem.TaxPolicies)
             {
-                switch (taxPolicy.Type)
+                switch (taxPolicy.PolicyType)
                 {
                     case Model.PolicyType.TaxPercentage:
                         {
-                            if (comparisonHelper.Compare(taxPolicy.Action, deposit.Amount, (decimal)taxPolicy.ComparisonValue))
+                            if (comparisonHelper.Compare(taxPolicy.ComparisonAction, deposit.Amount, (decimal)taxPolicy.ComparisonValue))
                             {
                                 taxPercentage += taxPolicy.TaxValue;
                             }

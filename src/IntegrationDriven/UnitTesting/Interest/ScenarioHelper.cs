@@ -57,6 +57,29 @@ namespace Ragnar.IntegrationDriven.UnitTesting.Interest
             return taxSystem;
         }
 
+        public static IntegrationDriven.Interest.Model.TaxPolicy AddTaxPolicy(
+            this IntegrationDriven.Interest.Model.TaxSystem taxSystem,
+            IntegrationDriven.Interest.Model.PolicyType policyType,
+            IntegrationDriven.Interest.Model.ComparisonAction comparisonAction,
+            object comparisonValue,
+            decimal? taxValue = null,
+            int? order = null)
+        {
+            IntegrationDriven.Interest.Model.TaxPolicy taxPolicy = new IntegrationDriven.Interest.Model.TaxPolicy()
+            {
+                PolicyType = policyType,
+                ComparisonAction = comparisonAction,
+                ComparisonValue = comparisonValue,
+                TaxValue = taxValue ?? decimal.Zero,
+                Order = order ?? 0,
+            };
+
+            taxSystem.TaxPolicies = taxSystem.TaxPolicies ?? new IntegrationDriven.Interest.Model.TaxPolicy[0];
+            taxSystem.TaxPolicies = taxSystem.TaxPolicies.Concat(new[] { taxPolicy }).ToArray();
+
+            return taxPolicy;
+        }
+
         public static IntegrationDriven.Interest.Model.Deposit AddDeposit(this IntegrationDriven.Interest.Model.BankAccount bank, DateTime startDate, DateTime endDate, Guid? id = null, decimal? amount = null)
         {
             IntegrationDriven.Interest.Model.Deposit deposit = new IntegrationDriven.Interest.Model.Deposit()

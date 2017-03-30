@@ -11,15 +11,15 @@ namespace Ragnar.IntegrationDriven.Interest.Model
 
     public class TaxPolicy
     {
-        public int Order { get; set; }
+        public PolicyType PolicyType { get; set; }
 
-        public PolicyType Type { get; set; }
-
-        public ComparisonAction Action { get; set; }
+        public ComparisonAction ComparisonAction { get; set; }
 
         public object ComparisonValue { get; set; }
 
         public decimal TaxValue { get; set; }
+
+        public int Order { get; set; }
     }
 
     public enum PolicyType
