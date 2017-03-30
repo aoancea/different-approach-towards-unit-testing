@@ -36,7 +36,7 @@ namespace Ragnar.IntegrationDriven.UnitTesting.Interest.Calculator
         }
 
         [TestMethod]
-        public void InterestCalculatorTest_ProjectDepositSummary_ApplyInterestRateOnly_ReturnProjectedSummary()
+        public void ProjectDepositSummary_ApplyInterestRateOnly_ReturnProjectedSummary()
         {
             Bank bank = ScenarioHelper.CreateBank(id: Guid.NewGuid(), name: "BT");
 
@@ -63,7 +63,7 @@ namespace Ragnar.IntegrationDriven.UnitTesting.Interest.Calculator
         }
 
         [TestMethod]
-        public void InterestCalculatorTest_ProjectDepositSummary_ApplyInterestRateAndTaxIfEqual_ReturnProjectedSummary()
+        public void ProjectDepositSummary_ApplyInterestRateAndTaxIfEqual_ReturnProjectedSummary()
         {
             Bank bank = ScenarioHelper.CreateBank(id: Guid.NewGuid(), name: "BT");
 
