@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Ragnar.MockDriven.UnitTesting.Interest.Calculator
+namespace Ragnar.MockDriven.UnitTesting.Interest
 {
     public static class ScenarioHelper
     {

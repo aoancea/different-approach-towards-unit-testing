@@ -55,11 +55,11 @@ namespace Ragnar.MockDriven.UnitTesting.Interest.Calculator
 
             MockDriven.Interest.Model.Deposit deposit = bankAccount.AddDeposit(startDate: new DateTime(2017, 01, 01), endDate: new DateTime(2017, 12, 31), id: Guid.NewGuid(), amount: 100);
 
-            bankRepositoryMock.Setup(x => x.Detail(bank.Id, It.IsAny<Guid>())).Returns(bank);
+            bankRepositoryMock.Setup(x => x.Detail(bank.Id, ScenarioHelper.userId)).Returns(bank);
             taxHelperMock.Setup(x => x.Tax(It.IsAny<decimal>(), 0M)).Returns(new MockDriven.Interest.Calculator.Contract.Tax() { AsPercentage = 0M, AsValue = 0M });
             interestHelperMock.Setup(x => x.Interest(It.IsAny<decimal>(), 0M)).Returns(new MockDriven.Interest.Calculator.Contract.Interest() { AsGross = 3M, AsNet = 3M });
 
-            MockDriven.Interest.Calculator.Contract.DepositProjectionSummary summary = interestCalculator.ProjectDepositSummary(Guid.NewGuid(), bank.Id, deposit.ID);
+            MockDriven.Interest.Calculator.Contract.DepositProjectionSummary summary = interestCalculator.ProjectDepositSummary(ScenarioHelper.userId, bank.Id, deposit.ID);
 
             Assert.AreEqual(3M, summary.Interest.AsGross); // the right value is actually 2.9917808219178082191780828400M
             Assert.AreEqual(3M, summary.Interest.AsNet); // the right value is actually 2.9917808219178082191780828400M
