@@ -43,7 +43,7 @@ namespace Ragnar.MockDriven.UnitTesting.Interest.Calculator
         }
 
         [TestMethod]
-        public void ProjectDepositSummary_ReturnSummary()
+        public void InterestCalculatorTest_ProjectDepositSummary_ApplyInterestRateOnly_ReturnProjectedSummary()
         {
             MockDriven.Interest.Model.Bank bank = ScenarioHelper.CreateBank(id: Guid.NewGuid(), name: "BT");
 
