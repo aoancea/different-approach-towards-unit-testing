@@ -78,24 +78,12 @@ namespace Ragnar.IntegrationDriven.Interest.Calculator
 
         private int DepositDaysActive(Model.Deposit deposit)
         {
-            return (int)(deposit.EndDate - deposit.StartDate).TotalDays;
+            return (int)(deposit.EndDate - deposit.StartDate).TotalDays + 1;
         }
 
         private decimal ActualInterestRate(Model.BankInterestRate interestRate, int depositDaysActive)
         {
-            decimal interestPerDay = interestRate.Value / 365;
-
-            return interestPerDay * depositDaysActive;
+            return depositDaysActive / 365 * interestRate.Value;
         }
-
-        //private int DepositDaysActive(Model.Deposit deposit)
-        //{
-        //    return (int)(deposit.EndDate - deposit.StartDate).TotalDays + 1;
-        //}
-
-        //private decimal ActualInterestRate(Model.BankInterestRate interestRate, int depositDaysActive)
-        //{
-        //    return depositDaysActive / 365 * interestRate.Value;
-        //}
     }
 }

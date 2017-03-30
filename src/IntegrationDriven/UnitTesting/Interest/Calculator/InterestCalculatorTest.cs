@@ -56,8 +56,8 @@ namespace Ragnar.IntegrationDriven.UnitTesting.Interest.Calculator
             Assert.AreEqual(deposit.StartDate, summary.StartDate);
             Assert.AreEqual(deposit.EndDate, summary.EndDate);
             Assert.AreEqual(deposit.Amount, summary.InitialAmount);
-            Assert.AreEqual(2.9917808219178082191780828400M, summary.Interest.AsGross); // should be 3M
-            Assert.AreEqual(2.9917808219178082191780828400M, summary.Interest.AsNet); // should be 3M
+            Assert.AreEqual(3M, summary.Interest.AsGross); // should be 3M
+            Assert.AreEqual(3M, summary.Interest.AsNet); // should be 3M
             Assert.AreEqual(0M, summary.Tax.AsPercentage);
             Assert.AreEqual(0M, summary.Tax.AsValue);
         }
@@ -84,10 +84,10 @@ namespace Ragnar.IntegrationDriven.UnitTesting.Interest.Calculator
             Assert.AreEqual(deposit.StartDate, summary.StartDate);
             Assert.AreEqual(deposit.EndDate, summary.EndDate);
             Assert.AreEqual(deposit.Amount, summary.InitialAmount);
-            Assert.AreEqual(14360.547945205479452054797632M, summary.Interest.AsGross); // should be 14400M
-            Assert.AreEqual(12062.860273972602739726030011M, summary.Interest.AsNet); // should be 12096M
+            Assert.AreEqual(14400M, summary.Interest.AsGross); // should be 14400M
+            Assert.AreEqual(12096M, summary.Interest.AsNet); // should be 12096M
             Assert.AreEqual(0.16M, summary.Tax.AsPercentage);
-            Assert.AreEqual(2297.6876712328767123287676211M, summary.Tax.AsValue); // should be 2304M
+            Assert.AreEqual(2304M, summary.Tax.AsValue); // should be 2304M
         }
 
         private void SetupMocks(Bank bank)
