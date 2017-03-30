@@ -90,8 +90,8 @@ namespace Ragnar.MockDriven.UnitTesting.Interest.Calculator
             Deposit deposit = bankAccount.AddDeposit(startDate: new DateTime(2017, 01, 01), endDate: new DateTime(2017, 12, 31), id: Guid.NewGuid(), amount: 480000M);
 
             bankRepositoryMock.Setup(x => x.Detail(bank.Id, ScenarioHelper.userId)).Returns(bank);
-            taxHelperMock.Setup(x => x.Tax(14360.547945205479452054797632M, 0.16M)).Returns(new Tax() { AsPercentage = 0.16M, AsValue = 2304M });
-            interestHelperMock.Setup(x => x.Interest(14360.547945205479452054797632M, 0.16M)).Returns(new MockDriven.Interest.Calculator.Contract.Interest() { AsGross = 14400M, AsNet = 12096M });
+            taxHelperMock.Setup(x => x.Tax(It.IsAny<decimal>(), 0.16M)).Returns(new Tax() { AsPercentage = 0.16M, AsValue = 2304M });
+            interestHelperMock.Setup(x => x.Interest(It.IsAny<decimal>(), 0.16M)).Returns(new MockDriven.Interest.Calculator.Contract.Interest() { AsGross = 14400M, AsNet = 12096M });
             comparisonHelperMock.Setup(x => x.Compare(ComparisonAction.Equal, 480000M, 480000M)).Returns(true);
 
             DepositProjectionSummary summary = interestCalculator.ProjectDepositSummary(ScenarioHelper.userId, bank.Id, deposit.ID);
