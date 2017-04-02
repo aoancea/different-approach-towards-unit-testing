@@ -11,9 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ragnar.MockDriven.UnitTesti
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{30CD9E40-C8DC-4CCE-A1F5-4CC3599F60F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ragnar.IntegrationDriven", "IntegrationDriven\IntegrationDriven\Ragnar.IntegrationDriven.csproj", "{28E944AC-50EF-4CD7-86D3-736EE29E29C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ragnar.Integration", "Integration\Integration\Ragnar.Integration.csproj", "{28E944AC-50EF-4CD7-86D3-736EE29E29C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ragnar.IntegrationDriven.UnitTesting", "IntegrationDriven\UnitTesting\Ragnar.IntegrationDriven.UnitTesting.csproj", "{8519F2BC-607F-4BB4-9E4F-BB6F39CB997B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ragnar.Integration.UnitTesting", "Integration\UnitTesting\Ragnar.Integration.UnitTesting.csproj", "{8519F2BC-607F-4BB4-9E4F-BB6F39CB997B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
