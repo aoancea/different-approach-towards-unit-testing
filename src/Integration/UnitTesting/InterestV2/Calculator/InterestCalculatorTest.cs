@@ -32,7 +32,8 @@ namespace Ragnar.Integration.UnitTesting.InterestV2.Calculator
                 policyHelper: container.GetInstance<IPolicyHelper>(),
                 taxHelper: container.GetInstance<ITaxHelper>(),
                 interestHelper: container.GetInstance<IInterestHelper>(),
-                comparisonHelper: container.GetInstance<IComparisonHelper>());
+                comparisonHelper: container.GetInstance<IComparisonHelper>(),
+                interestRateHelper: container.GetInstance<InterestRateHelper>());
         }
 
         [TestMethod]

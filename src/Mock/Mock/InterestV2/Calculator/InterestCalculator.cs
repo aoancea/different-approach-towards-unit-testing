@@ -10,19 +10,22 @@ namespace Ragnar.Mock.InterestV2.Calculator
         private readonly Helpers.ITaxHelper taxHelper;
         private readonly Helpers.IInterestHelper interestHelper;
         private readonly Helpers.IComparisonHelper comparisonHelper;
+        private readonly Helpers.IInterestRateHelper interestRateHelper;
 
         public InterestCalculator(
             Repository.IBankRepository bankRepository,
             Helpers.IPolicyHelper policyHelper,
             Helpers.ITaxHelper taxHelper,
             Helpers.IInterestHelper interestHelper,
-            Helpers.IComparisonHelper comparisonHelper)
+            Helpers.IComparisonHelper comparisonHelper,
+            Helpers.IInterestRateHelper interestRateHelper)
         {
             this.bankRepository = bankRepository;
             this.policyHelper = policyHelper;
             this.taxHelper = taxHelper;
             this.interestHelper = interestHelper;
             this.comparisonHelper = comparisonHelper;
+            this.interestRateHelper = interestRateHelper;
         }
 
         public Contract.DepositProjectionSummary ProjectDepositSummary(Guid userId, Guid bankId, Guid depositId)
@@ -35,13 +38,7 @@ namespace Ragnar.Mock.InterestV2.Calculator
 
             Model.TaxSystem taxSystem = bank.TaxSystem.First(x => x.Key >= deposit.StartDate && x.Key <= deposit.EndDate).Value;
 
-            // move them first in their own Helpers
-            // then remove the first helper and move the code in the 2nd one
-            int depositDaysActive = DepositDaysActive(deposit); // loose this and build it inside ActualInterestRate
-
-            decimal actualInterestRate = ActualInterestRate(interestRate, depositDaysActive);
-
-            decimal depositInterest = deposit.Amount * actualInterestRate;
+            decimal depositInterest = deposit.Amount * interestRateHelper.ForPeriod(interestRate, deposit.StartDate, deposit.EndDate);
 
             decimal taxPercentage = 0;
             foreach (Model.TaxPolicy taxPolicy in taxSystem.TaxPolicies)
@@ -74,16 +71,6 @@ namespace Ragnar.Mock.InterestV2.Calculator
                 Interest = interest,
                 Tax = tax
             };
-        }
-
-        private int DepositDaysActive(Model.Deposit deposit)
-        {
-            return (int)(deposit.EndDate - deposit.StartDate).TotalDays + 1;
-        }
-
-        private decimal ActualInterestRate(Model.BankInterestRate interestRate, int depositDaysActive)
-        {
-            return depositDaysActive / 365 * interestRate.Value;
         }
     }
 }
