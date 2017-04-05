@@ -43,7 +43,9 @@
     <Compile Include="InterestV2\Calculator\Contract\IInterestCalculator.cs" />
     <Compile Include="InterestV2\Calculator\Helpers\ComparisonHelper.cs" />
     <Compile Include="InterestV2\Calculator\Helpers\InterestHelper.cs" />
+    <Compile Include="InterestV2\Calculator\Helpers\InterestRateHelper.cs" />
     <Compile Include="InterestV2\Calculator\Helpers\PolicyHelper.cs" />
+    <Compile Include="InterestV2\Calculator\Helpers\RangeHelper.cs" />
     <Compile Include="InterestV2\Calculator\Helpers\TaxHelper.cs" />
     <Compile Include="InterestV2\Calculator\InterestCalculator.cs" />
     <Compile Include="InterestV2\Model\Bank.cs" />

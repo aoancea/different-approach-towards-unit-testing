@@ -10,6 +10,8 @@ namespace Ragnar.Integration.UnitTesting.InterestV2
             container.Register<Integration.InterestV2.Calculator.Helpers.IInterestHelper, Integration.InterestV2.Calculator.Helpers.InterestHelper>();
             container.Register<Integration.InterestV2.Calculator.Helpers.IPolicyHelper, Integration.InterestV2.Calculator.Helpers.PolicyHelper>();
             container.Register<Integration.InterestV2.Calculator.Helpers.ITaxHelper, Integration.InterestV2.Calculator.Helpers.TaxHelper>();
+            container.Register<Integration.InterestV2.Calculator.Helpers.IRangeHelper, Integration.InterestV2.Calculator.Helpers.RangeHelper>();
+            container.Register<Integration.InterestV2.Calculator.Helpers.IInterestRateHelper, Integration.InterestV2.Calculator.Helpers.InterestRateHelper>();
 
             container.Verify();
         }
