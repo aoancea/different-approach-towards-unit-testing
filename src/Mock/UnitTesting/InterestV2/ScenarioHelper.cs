@@ -94,5 +94,14 @@ namespace Ragnar.Mock.UnitTesting.InterestV2
 
             return deposit;
         }
+
+        public static Mock.InterestV2.Calculator.Helpers.PolicyCalculationContext CreatePolicyCalculationContext(Mock.InterestV2.Model.TaxPolicy[] taxPolicies, Mock.InterestV2.Model.Deposit deposit)
+        {
+            return new Mock.InterestV2.Calculator.Helpers.PolicyCalculationContext()
+            {
+                TaxPolicies = taxPolicies,
+                Deposit = deposit
+            };
+        }
     }
 }

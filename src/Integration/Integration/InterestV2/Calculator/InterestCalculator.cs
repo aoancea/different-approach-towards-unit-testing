@@ -9,7 +9,7 @@ namespace Ragnar.Integration.InterestV2.Calculator
         private readonly Helpers.IPolicyHelper policyHelper;
         private readonly Helpers.ITaxHelper taxHelper;
         private readonly Helpers.IInterestHelper interestHelper;
-        private readonly Helpers.IComparisonHelper comparisonHelper;
+        
         private readonly Helpers.InterestRateHelper interestRateHelper;
 
         public InterestCalculator(
@@ -17,14 +17,12 @@ namespace Ragnar.Integration.InterestV2.Calculator
             Helpers.IPolicyHelper policyHelper,
             Helpers.ITaxHelper taxHelper,
             Helpers.IInterestHelper interestHelper,
-            Helpers.IComparisonHelper comparisonHelper,
             Helpers.InterestRateHelper interestRateHelper)
         {
             this.bankRepository = bankRepository;
             this.policyHelper = policyHelper;
             this.taxHelper = taxHelper;
             this.interestHelper = interestHelper;
-            this.comparisonHelper = comparisonHelper;
             this.interestRateHelper = interestRateHelper;
         }
 
@@ -40,24 +38,7 @@ namespace Ragnar.Integration.InterestV2.Calculator
 
             decimal depositInterest = deposit.Amount * interestRateHelper.ForPeriod(interestRate, deposit.StartDate, deposit.EndDate);
 
-            decimal taxPercentage = 0;
-            foreach (Model.TaxPolicy taxPolicy in taxSystem.TaxPolicies)
-            {
-                switch (taxPolicy.PolicyType)
-                {
-                    case Model.PolicyType.TaxPercentage:
-                        {
-                            if (comparisonHelper.Compare(taxPolicy.ComparisonAction, deposit.Amount, (decimal)taxPolicy.ComparisonValue))
-                            {
-                                taxPercentage += taxPolicy.TaxValue;
-                            }
-                        }
-                        break;
-
-                    default:
-                        break;
-                }
-            }
+            decimal taxPercentage = policyHelper.ApplyPolicy(CreatePolicyCalcContext(taxSystem, deposit));
 
             Contract.Tax tax = taxHelper.Tax(depositInterest, taxPercentage);
             Contract.Interest interest = interestHelper.Interest(depositInterest, taxPercentage);
@@ -71,6 +52,11 @@ namespace Ragnar.Integration.InterestV2.Calculator
                 Interest = interest,
                 Tax = tax
             };
+        }
+
+        private Helpers.PolicyCalculationContext CreatePolicyCalcContext(Model.TaxSystem taxSystem, Model.Deposit deposit)
+        {
+            return new Helpers.PolicyCalculationContext() { TaxPolicies = taxSystem.TaxPolicies, Deposit = deposit };
         }
 
         private int DepositDaysActive(Model.Deposit deposit)
