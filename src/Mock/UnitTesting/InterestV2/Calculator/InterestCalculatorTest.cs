@@ -15,7 +15,6 @@ namespace Ragnar.Mock.UnitTesting.InterestV2.Calculator
         private Mock<IPolicyHelper> policyHelperMock;
         private Mock<ITaxHelper> taxHelperMock;
         private Mock<IInterestHelper> interestHelperMock;
-        private Mock<IComparisonHelper> comparisonHelperMock;
         private Mock<IInterestRateHelper> interestRateHelperMock;
 
         private Mock.InterestV2.Calculator.InterestCalculator interestCalculator;
@@ -27,7 +26,6 @@ namespace Ragnar.Mock.UnitTesting.InterestV2.Calculator
             policyHelperMock = new Mock<IPolicyHelper>(MockBehavior.Strict);
             taxHelperMock = new Mock<ITaxHelper>(MockBehavior.Strict);
             interestHelperMock = new Mock<IInterestHelper>(MockBehavior.Strict);
-            comparisonHelperMock = new Mock<IComparisonHelper>(MockBehavior.Strict);
             interestRateHelperMock = new Mock<IInterestRateHelper>(MockBehavior.Strict);
 
             interestCalculator = new Mock.InterestV2.Calculator.InterestCalculator(
@@ -35,7 +33,6 @@ namespace Ragnar.Mock.UnitTesting.InterestV2.Calculator
                 policyHelper: policyHelperMock.Object,
                 taxHelper: taxHelperMock.Object,
                 interestHelper: interestHelperMock.Object,
-                comparisonHelper: comparisonHelperMock.Object,
                 interestRateHelper: interestRateHelperMock.Object);
         }
 
@@ -46,7 +43,6 @@ namespace Ragnar.Mock.UnitTesting.InterestV2.Calculator
             policyHelperMock.VerifyAll();
             taxHelperMock.VerifyAll();
             interestHelperMock.VerifyAll();
-            comparisonHelperMock.VerifyAll();
             interestRateHelperMock.VerifyAll();
         }
 
@@ -66,9 +62,12 @@ namespace Ragnar.Mock.UnitTesting.InterestV2.Calculator
             bankRepositoryMock.Setup(x => x.Detail(bank.Id, ScenarioHelper.userId)).Returns(bank);
             // How did we get to this return value? Well we ran the tests from the Integration side or did the calculation our selves. What happens if the bussiness logic is more complex and we don't have any tests that integrate everything? We pretty much end up writing an invalid scenario
             interestRateHelperMock.Setup(x => x.ForPeriod(bankInterestRate, deposit.StartDate, deposit.EndDate)).Returns(0.03M);
+
+            policyHelperMock.Setup(x => x.ApplyPolicy(It.Is<PolicyCalculationContext>(y => RagnarAssert.Match(ScenarioHelper.CreatePolicyCalculationContext(taxSystem.TaxPolicies, deposit), y)))).Returns(0M);
+
             taxHelperMock.Setup(x => x.Tax(3.0M, 0M)).Returns(new Tax() { AsPercentage = 0M, AsValue = 0M });
             interestHelperMock.Setup(x => x.Interest(3.0M, 0M)).Returns(new Mock.InterestV2.Calculator.Contract.Interest() { AsGross = 3M, AsNet = 3M });
-            
+
             DepositProjectionSummary summary = interestCalculator.ProjectDepositSummary(ScenarioHelper.userId, bank.Id, deposit.ID);
 
             Assert.AreEqual(deposit.ID, summary.DepositID);
@@ -98,9 +97,11 @@ namespace Ragnar.Mock.UnitTesting.InterestV2.Calculator
             bankRepositoryMock.Setup(x => x.Detail(bank.Id, ScenarioHelper.userId)).Returns(bank);
             // How did we get to this return value? Well we ran the tests from the Integration side or did the calculation our selves. What happens if the bussiness logic is more complex and we don't have any tests that integrate everything? We pretty much end up writing an invalid scenario
             interestRateHelperMock.Setup(x => x.ForPeriod(bankInterestRate, deposit.StartDate, deposit.EndDate)).Returns(0.03M);
+
+            policyHelperMock.Setup(x => x.ApplyPolicy(It.Is<PolicyCalculationContext>(y => RagnarAssert.Match(ScenarioHelper.CreatePolicyCalculationContext(bank.TaxSystem[new DateTime(2017, 01, 01)].TaxPolicies, deposit), y)))).Returns(0.16M);
+
             taxHelperMock.Setup(x => x.Tax(14400M, 0.16M)).Returns(new Tax() { AsPercentage = 0.16M, AsValue = 2304M });
             interestHelperMock.Setup(x => x.Interest(14400M, 0.16M)).Returns(new Mock.InterestV2.Calculator.Contract.Interest() { AsGross = 14400M, AsNet = 12096M });
-            comparisonHelperMock.Setup(x => x.Compare(ComparisonAction.Equal, 480000M, 480000M)).Returns(true);
 
             DepositProjectionSummary summary = interestCalculator.ProjectDepositSummary(ScenarioHelper.userId, bank.Id, deposit.ID);
 
@@ -112,6 +113,15 @@ namespace Ragnar.Mock.UnitTesting.InterestV2.Calculator
             Assert.AreEqual(12096M, summary.Interest.AsNet);
             Assert.AreEqual(0.16M, summary.Tax.AsPercentage);
             Assert.AreEqual(2304M, summary.Tax.AsValue);
+        }
+
+        private static class RagnarAssert
+        {
+            public static bool Match(PolicyCalculationContext expected, PolicyCalculationContext actual)
+            {
+                return expected.TaxPolicies == actual.TaxPolicies
+                    && expected.Deposit == actual.Deposit;
+            }
         }
     }
 }
