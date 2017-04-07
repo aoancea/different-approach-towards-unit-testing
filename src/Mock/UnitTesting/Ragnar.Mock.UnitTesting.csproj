@@ -62,6 +62,8 @@
   <ItemGroup>
     <Compile Include="InterestV2\Calculator\InterestCalculatorTest.cs" />
     <Compile Include="InterestV2\ScenarioHelper.cs" />
+    <Compile Include="InterestV3\Calculator\InterestCalculatorTest.cs" />
+    <Compile Include="InterestV3\ScenarioHelper.cs" />
     <Compile Include="Interest\Calculator\InterestCalculatorTest.cs" />
     <Compile Include="Interest\ScenarioHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,9 +73,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="InterestV3\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Mock\Ragnar.Mock.csproj">
       <Project>{b8630cbc-4403-4258-9340-5b4362fd7d36}</Project>
