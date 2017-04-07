@@ -9,15 +9,14 @@ namespace Ragnar.Integration.InterestV3.Calculator
         private readonly Helpers.IPolicyHelper policyHelper;
         private readonly Helpers.ITaxHelper taxHelper;
         private readonly Helpers.IInterestHelper interestHelper;
-        
-        private readonly Helpers.InterestRateHelper interestRateHelper;
+        private readonly Helpers.IInterestRateHelper interestRateHelper;
 
         public InterestCalculator(
             Repository.IBankRepository bankRepository,
             Helpers.IPolicyHelper policyHelper,
             Helpers.ITaxHelper taxHelper,
             Helpers.IInterestHelper interestHelper,
-            Helpers.InterestRateHelper interestRateHelper)
+            Helpers.IInterestRateHelper interestRateHelper)
         {
             this.bankRepository = bankRepository;
             this.policyHelper = policyHelper;
@@ -57,16 +56,6 @@ namespace Ragnar.Integration.InterestV3.Calculator
         private Helpers.PolicyCalculationContext CreatePolicyCalcContext(Model.TaxSystem taxSystem, Model.Deposit deposit)
         {
             return new Helpers.PolicyCalculationContext() { TaxPolicies = taxSystem.TaxPolicies, Deposit = deposit };
-        }
-
-        private int DepositDaysActive(Model.Deposit deposit)
-        {
-            return (int)(deposit.EndDate - deposit.StartDate).TotalDays + 1;
-        }
-
-        private decimal ActualInterestRate(Model.BankInterestRate interestRate, int depositDaysActive)
-        {
-            return depositDaysActive / 365 * interestRate.Value;
         }
     }
 }

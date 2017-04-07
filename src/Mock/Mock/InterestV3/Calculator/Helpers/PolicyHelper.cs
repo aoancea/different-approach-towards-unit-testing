@@ -1,11 +1,7 @@
-﻿using System;
-
-namespace Ragnar.Mock.InterestV3.Calculator.Helpers
+﻿namespace Ragnar.Mock.InterestV3.Calculator.Helpers
 {
     public interface IPolicyHelper
     {
-        decimal ApplyPolicy(Model.TaxPolicy policy);
-
         decimal ApplyPolicy(PolicyCalculationContext policyCalcContext);
     }
 
@@ -16,11 +12,6 @@ namespace Ragnar.Mock.InterestV3.Calculator.Helpers
         public PolicyHelper(IComparisonHelper comparisonHelper)
         {
             this.comparisonHelper = comparisonHelper;
-        }
-
-        public decimal ApplyPolicy(Model.TaxPolicy policy)
-        {
-            throw new NotImplementedException();
         }
 
         public decimal ApplyPolicy(PolicyCalculationContext policyCalcContext)
