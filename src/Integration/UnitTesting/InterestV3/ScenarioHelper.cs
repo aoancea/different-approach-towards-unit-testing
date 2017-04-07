@@ -14,7 +14,7 @@ namespace Ragnar.Integration.UnitTesting.InterestV3
             return new Integration.InterestV3.Model.Bank()
             {
                 Id = id ?? Guid.NewGuid(),
-                Name = "Bank with no name!"
+                Name = name ?? "Bank with no name!"
             };
         }
 
@@ -74,8 +74,7 @@ namespace Ragnar.Integration.UnitTesting.InterestV3
                 Order = order ?? 0,
             };
 
-            taxSystem.TaxPolicies = taxSystem.TaxPolicies ?? new Integration.InterestV3.Model.TaxPolicy[0];
-            taxSystem.TaxPolicies = taxSystem.TaxPolicies.Concat(new[] { taxPolicy }).ToArray();
+            taxSystem.TaxPolicies = (taxSystem.TaxPolicies ?? new Integration.InterestV3.Model.TaxPolicy[0]).Concat(new[] { taxPolicy }).ToArray();
 
             return taxPolicy;
         }

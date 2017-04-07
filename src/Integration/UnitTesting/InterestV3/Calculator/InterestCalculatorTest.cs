@@ -38,7 +38,7 @@ namespace Ragnar.Integration.UnitTesting.InterestV3.Calculator
         [TestMethod]
         public void ProjectDepositSummary_ApplyInterestRateOnly_ReturnProjectedSummary()
         {
-            Bank bank = ScenarioHelper.CreateBank(id: Guid.NewGuid(), name: "BT");
+            Bank bank = ScenarioHelper.CreateBank(name: "BT");
 
             TaxSystem taxSystem = bank.AddTaxSystem(effectiveDate: new DateTime(2017, 01, 01));
 
@@ -65,7 +65,7 @@ namespace Ragnar.Integration.UnitTesting.InterestV3.Calculator
         [TestMethod]
         public void ProjectDepositSummary_ApplyInterestRateAndTaxIfEqual_ReturnProjectedSummary()
         {
-            Bank bank = ScenarioHelper.CreateBank(id: Guid.NewGuid(), name: "BT");
+            Bank bank = ScenarioHelper.CreateBank(name: "BT");
 
             bank.AddTaxSystem(effectiveDate: new DateTime(2017, 01, 01))
                 .AddTaxPolicy(policyType: PolicyType.TaxPercentage, comparisonAction: ComparisonAction.Equal, comparisonValue: 480000M, taxValue: 0.16M, order: 0);
