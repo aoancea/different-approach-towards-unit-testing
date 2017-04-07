@@ -71,7 +71,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="InterestV3\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mock\Ragnar.Mock.csproj">
       <Project>{b8630cbc-4403-4258-9340-5b4362fd7d36}</Project>
