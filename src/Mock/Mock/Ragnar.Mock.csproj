@@ -56,6 +56,22 @@
     <Compile Include="InterestV2\Model\User.cs" />
     <Compile Include="InterestV2\Repository\IBankRepository.cs" />
     <Compile Include="InterestV2\Repository\IUserRepository.cs" />
+    <Compile Include="InterestV3\Calculator\Contract\IInterestCalculator.cs" />
+    <Compile Include="InterestV3\Calculator\Helpers\ComparisonHelper.cs" />
+    <Compile Include="InterestV3\Calculator\Helpers\InterestHelper.cs" />
+    <Compile Include="InterestV3\Calculator\Helpers\InterestRateHelper.cs" />
+    <Compile Include="InterestV3\Calculator\Helpers\PolicyHelper.cs" />
+    <Compile Include="InterestV3\Calculator\Helpers\RangeHelper.cs" />
+    <Compile Include="InterestV3\Calculator\Helpers\TaxHelper.cs" />
+    <Compile Include="InterestV3\Calculator\InterestCalculator.cs" />
+    <Compile Include="InterestV3\Model\Bank.cs" />
+    <Compile Include="InterestV3\Model\BankAccount.cs" />
+    <Compile Include="InterestV3\Model\BankInterestRate.cs" />
+    <Compile Include="InterestV3\Model\Deposit.cs" />
+    <Compile Include="InterestV3\Model\TaxSystem.cs" />
+    <Compile Include="InterestV3\Model\User.cs" />
+    <Compile Include="InterestV3\Repository\IBankRepository.cs" />
+    <Compile Include="InterestV3\Repository\IUserRepository.cs" />
     <Compile Include="Interest\Calculator\Contract\IInterestCalculator.cs" />
     <Compile Include="Interest\Calculator\Helpers\ComparisonHelper.cs" />
     <Compile Include="Interest\Calculator\Helpers\InterestHelper.cs" />
@@ -72,9 +88,7 @@
     <Compile Include="Interest\Repository\IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="InterestV3\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
