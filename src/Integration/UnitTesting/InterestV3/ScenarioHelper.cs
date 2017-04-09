@@ -83,7 +83,7 @@ namespace Ragnar.Integration.UnitTesting.InterestV3
         {
             Integration.InterestV3.Model.Deposit deposit = new Integration.InterestV3.Model.Deposit()
             {
-                ID = id ?? Guid.NewGuid(),
+                ID = id ?? ScenarioHelper.depositId,
                 StartDate = startDate,
                 EndDate = endDate,
                 Amount = amount ?? decimal.Zero
@@ -92,6 +92,46 @@ namespace Ragnar.Integration.UnitTesting.InterestV3
             bank.Deposits = (bank.Deposits ?? new Integration.InterestV3.Model.Deposit[0]).Concat(new[] { deposit }).ToArray();
 
             return deposit;
+        }
+
+
+        public static Integration.InterestV3.Calculator.Contract.DepositProjectionSummary CreateDepositProjectionSummary(Guid? depositId = null, DateTime? startDate = null, DateTime? endDate = null, decimal? initialAmount = null)
+        {
+            Integration.InterestV3.Calculator.Contract.DepositProjectionSummary summary = new Integration.InterestV3.Calculator.Contract.DepositProjectionSummary()
+            {
+                DepositID = depositId ?? ScenarioHelper.depositId,
+                StartDate = startDate ?? DateTime.MinValue,
+                EndDate = endDate ?? DateTime.MinValue,
+                InitialAmount = initialAmount ?? decimal.Zero
+            };
+
+            return summary;
+        }
+
+        public static Integration.InterestV3.Calculator.Contract.Interest AddInterest(this Integration.InterestV3.Calculator.Contract.DepositProjectionSummary summary, decimal? asGross = null, decimal? asNet = null)
+        {
+            Integration.InterestV3.Calculator.Contract.Interest interest = new Integration.InterestV3.Calculator.Contract.Interest()
+            {
+                AsGross = asGross ?? decimal.Zero,
+                AsNet = asNet ?? decimal.Zero
+            };
+
+            summary.Interest = interest;
+
+            return interest;
+        }
+
+        public static Integration.InterestV3.Calculator.Contract.Tax AddTax(this Integration.InterestV3.Calculator.Contract.DepositProjectionSummary summary, decimal? asPercentage = null, decimal? asValue = null)
+        {
+            Integration.InterestV3.Calculator.Contract.Tax tax = new Integration.InterestV3.Calculator.Contract.Tax()
+            {
+                AsPercentage = asPercentage ?? decimal.Zero,
+                AsValue = asValue ?? decimal.Zero
+            };
+
+            summary.Tax = tax;
+
+            return tax;
         }
     }
 }

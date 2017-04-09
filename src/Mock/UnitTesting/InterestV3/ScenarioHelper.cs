@@ -84,7 +84,7 @@ namespace Ragnar.Mock.UnitTesting.InterestV3
         {
             Mock.InterestV3.Model.Deposit deposit = new Mock.InterestV3.Model.Deposit()
             {
-                ID = id ?? Guid.NewGuid(),
+                ID = id ?? ScenarioHelper.depositId,
                 StartDate = startDate,
                 EndDate = endDate,
                 Amount = amount ?? decimal.Zero
@@ -102,6 +102,46 @@ namespace Ragnar.Mock.UnitTesting.InterestV3
                 TaxPolicies = taxPolicies,
                 Deposit = deposit
             };
+        }
+
+
+        public static Mock.InterestV3.Calculator.Contract.DepositProjectionSummary CreateDepositProjectionSummary(Guid? depositId = null, DateTime? startDate = null, DateTime? endDate = null, decimal? initialAmount = null)
+        {
+            Mock.InterestV3.Calculator.Contract.DepositProjectionSummary summary = new Mock.InterestV3.Calculator.Contract.DepositProjectionSummary()
+            {
+                DepositID = depositId ?? ScenarioHelper.depositId,
+                StartDate = startDate ?? DateTime.MinValue,
+                EndDate = endDate ?? DateTime.MinValue,
+                InitialAmount = initialAmount ?? decimal.Zero
+            };
+
+            return summary;
+        }
+
+        public static Mock.InterestV3.Calculator.Contract.Interest AddInterest(this Mock.InterestV3.Calculator.Contract.DepositProjectionSummary summary, decimal? asGross = null, decimal? asNet = null)
+        {
+            Mock.InterestV3.Calculator.Contract.Interest interest = new Mock.InterestV3.Calculator.Contract.Interest()
+            {
+                AsGross = asGross ?? decimal.Zero,
+                AsNet = asNet ?? decimal.Zero
+            };
+
+            summary.Interest = interest;
+
+            return interest;
+        }
+
+        public static Mock.InterestV3.Calculator.Contract.Tax AddTax(this Mock.InterestV3.Calculator.Contract.DepositProjectionSummary summary, decimal? asPercentage = null, decimal? asValue = null)
+        {
+            Mock.InterestV3.Calculator.Contract.Tax tax = new Mock.InterestV3.Calculator.Contract.Tax()
+            {
+                AsPercentage = asPercentage ?? decimal.Zero,
+                AsValue = asValue ?? decimal.Zero
+            };
+
+            summary.Tax = tax;
+
+            return tax;
         }
     }
 }

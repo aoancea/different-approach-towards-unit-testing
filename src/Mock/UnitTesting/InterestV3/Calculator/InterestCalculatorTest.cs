@@ -57,7 +57,7 @@ namespace Ragnar.Mock.UnitTesting.InterestV3.Calculator
 
             BankAccount bankAccount = bank.AddBankAccount(id: Guid.NewGuid());
 
-            Deposit deposit = bankAccount.AddDeposit(startDate: new DateTime(2017, 01, 01), endDate: new DateTime(2017, 12, 31), id: Guid.NewGuid(), amount: 100);
+            Deposit deposit = bankAccount.AddDeposit(startDate: new DateTime(2017, 01, 01), endDate: new DateTime(2017, 12, 31), amount: 100);
 
             bankRepositoryMock.Setup(x => x.Detail(bank.Id, ScenarioHelper.userId)).Returns(bank);
             // How did we get to this return value? Well we ran the tests from the Integration side or did the calculation our selves. What happens if the bussiness logic is more complex and we don't have any tests that integrate everything? We pretty much end up writing an invalid scenario
@@ -68,16 +68,13 @@ namespace Ragnar.Mock.UnitTesting.InterestV3.Calculator
             taxHelperMock.Setup(x => x.Tax(3.0M, 0M)).Returns(new Tax() { AsPercentage = 0M, AsValue = 0M });
             interestHelperMock.Setup(x => x.Interest(3.0M, 0M)).Returns(new Mock.InterestV3.Calculator.Contract.Interest() { AsGross = 3M, AsNet = 3M });
 
-            DepositProjectionSummary summary = interestCalculator.ProjectDepositSummary(ScenarioHelper.userId, bank.Id, deposit.ID);
+            DepositProjectionSummary expectedSummary = ScenarioHelper.CreateDepositProjectionSummary(startDate: new DateTime(2017, 01, 01), endDate: new DateTime(2017, 12, 31), initialAmount: 100M);
+            expectedSummary.AddInterest(asGross: 3M, asNet: 3M);
+            expectedSummary.AddTax(asPercentage: 0M, asValue: 0M);
 
-            Assert.AreEqual(deposit.ID, summary.DepositID);
-            Assert.AreEqual(deposit.StartDate, summary.StartDate);
-            Assert.AreEqual(deposit.EndDate, summary.EndDate);
-            Assert.AreEqual(deposit.Amount, summary.InitialAmount);
-            Assert.AreEqual(3M, summary.Interest.AsGross);
-            Assert.AreEqual(3M, summary.Interest.AsNet);
-            Assert.AreEqual(0M, summary.Tax.AsPercentage);
-            Assert.AreEqual(0M, summary.Tax.AsValue);
+            DepositProjectionSummary actualSummary = interestCalculator.ProjectDepositSummary(ScenarioHelper.userId, bank.Id, deposit.ID);
+
+            RagnarAssert.AreEqual(expectedSummary, actualSummary);
         }
 
         [TestMethod]
@@ -92,7 +89,7 @@ namespace Ragnar.Mock.UnitTesting.InterestV3.Calculator
 
             BankAccount bankAccount = bank.AddBankAccount(id: Guid.NewGuid());
 
-            Deposit deposit = bankAccount.AddDeposit(startDate: new DateTime(2017, 01, 01), endDate: new DateTime(2017, 12, 31), id: Guid.NewGuid(), amount: 480000M);
+            Deposit deposit = bankAccount.AddDeposit(startDate: new DateTime(2017, 01, 01), endDate: new DateTime(2017, 12, 31), amount: 480000M);
 
             bankRepositoryMock.Setup(x => x.Detail(bank.Id, ScenarioHelper.userId)).Returns(bank);
             // How did we get to this return value? Well we ran the tests from the Integration side or did the calculation our selves. What happens if the bussiness logic is more complex and we don't have any tests that integrate everything? We pretty much end up writing an invalid scenario
@@ -103,25 +100,13 @@ namespace Ragnar.Mock.UnitTesting.InterestV3.Calculator
             taxHelperMock.Setup(x => x.Tax(14400M, 0.16M)).Returns(new Tax() { AsPercentage = 0.16M, AsValue = 2304M });
             interestHelperMock.Setup(x => x.Interest(14400M, 0.16M)).Returns(new Mock.InterestV3.Calculator.Contract.Interest() { AsGross = 14400M, AsNet = 12096M });
 
-            DepositProjectionSummary summary = interestCalculator.ProjectDepositSummary(ScenarioHelper.userId, bank.Id, deposit.ID);
+            DepositProjectionSummary expectedSummary = ScenarioHelper.CreateDepositProjectionSummary(startDate: new DateTime(2017, 01, 01), endDate: new DateTime(2017, 12, 31), initialAmount: 480000M);
+            expectedSummary.AddInterest(asGross: 14400M, asNet: 12096M);
+            expectedSummary.AddTax(asPercentage: 0.16M, asValue: 2304M);
 
-            Assert.AreEqual(deposit.ID, summary.DepositID);
-            Assert.AreEqual(deposit.StartDate, summary.StartDate);
-            Assert.AreEqual(deposit.EndDate, summary.EndDate);
-            Assert.AreEqual(deposit.Amount, summary.InitialAmount);
-            Assert.AreEqual(14400M, summary.Interest.AsGross);
-            Assert.AreEqual(12096M, summary.Interest.AsNet);
-            Assert.AreEqual(0.16M, summary.Tax.AsPercentage);
-            Assert.AreEqual(2304M, summary.Tax.AsValue);
-        }
+            DepositProjectionSummary actualSummary = interestCalculator.ProjectDepositSummary(ScenarioHelper.userId, bank.Id, deposit.ID);
 
-        private static class RagnarAssert
-        {
-            public static bool Match(PolicyCalculationContext expected, PolicyCalculationContext actual)
-            {
-                return expected.TaxPolicies == actual.TaxPolicies
-                    && expected.Deposit == actual.Deposit;
-            }
+            RagnarAssert.AreEqual(expectedSummary, actualSummary);
         }
     }
 }
