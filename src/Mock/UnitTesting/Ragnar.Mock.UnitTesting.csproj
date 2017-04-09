@@ -67,6 +67,7 @@
     <Compile Include="InterestV2\Calculator\InterestCalculatorTest.cs" />
     <Compile Include="InterestV2\ScenarioHelper.cs" />
     <Compile Include="InterestV3\Calculator\InterestCalculatorTest.cs" />
+    <Compile Include="InterestV3\RagnarAssert.cs" />
     <Compile Include="InterestV3\ScenarioHelper.cs" />
     <Compile Include="Interest\Calculator\InterestCalculatorTest.cs" />
     <Compile Include="Interest\ScenarioHelper.cs" />
