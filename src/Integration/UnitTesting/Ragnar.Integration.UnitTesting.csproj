@@ -85,7 +85,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Dispatcher\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Integration\Ragnar.Integration.csproj">
       <Project>{28e944ac-50ef-4cd7-86d3-736ee29e29c4}</Project>
