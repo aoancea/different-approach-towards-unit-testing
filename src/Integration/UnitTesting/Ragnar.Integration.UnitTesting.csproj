@@ -68,11 +68,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Dispatcher\Bootstrapper.cs" />
+    <Compile Include="Dispatcher\CommandDispatcherTest.cs" />
+    <Compile Include="Dispatcher\UnitTestHelper.cs" />
     <Compile Include="InterestV2\Calculator\InterestCalculatorTest.cs" />
     <Compile Include="InterestV2\ScenarioHelper.cs" />
     <Compile Include="InterestV2\UnitTestBootstrapper.cs" />
     <Compile Include="InterestV3\Calculator\InterestCalculatorTest.cs" />
-    <Compile Include="InterestV3\RagnarAssert.cs" />
+    <Compile Include="RagnarAssert.cs" />
     <Compile Include="InterestV3\ScenarioHelper.cs" />
     <Compile Include="InterestV3\UnitTestBootstrapper.cs" />
     <Compile Include="Interest\Calculator\InterestCalculatorTest.cs" />
@@ -85,9 +88,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Dispatcher\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Integration\Ragnar.Integration.csproj">
       <Project>{28e944ac-50ef-4cd7-86d3-736ee29e29c4}</Project>

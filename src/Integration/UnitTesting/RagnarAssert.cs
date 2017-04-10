@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Ragnar.Integration.UnitTesting.InterestV3
+namespace Ragnar.Integration.UnitTesting
 {
     public static class RagnarAssert
     {

@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SimpleInjector, Version=3.2.7.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SimpleInjector.3.2.7\lib\net45\SimpleInjector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,6 +44,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dispatcher\Authorization\Authorizer.cs" />
+    <Compile Include="Dispatcher\Authorization\CommandAuthorizerBase.cs" />
+    <Compile Include="Dispatcher\Authorization\ICommandAuthorizer.cs" />
+    <Compile Include="Dispatcher\CommandDispatcher.cs" />
+    <Compile Include="Dispatcher\CommandResponse.cs" />
+    <Compile Include="Dispatcher\ICommand.cs" />
+    <Compile Include="Dispatcher\ICommandDispatcher.cs" />
+    <Compile Include="Dispatcher\ICommandHandler.cs" />
+    <Compile Include="Dispatcher\ICommandResponse.cs" />
+    <Compile Include="Dispatcher\Validation\CommandValidatorBase.cs" />
+    <Compile Include="Dispatcher\Validation\ICommandValidator.cs" />
+    <Compile Include="Dispatcher\Validation\ValidationError.cs" />
     <Compile Include="InterestV2\Calculator\Contract\IInterestCalculator.cs" />
     <Compile Include="InterestV2\Calculator\Helpers\ComparisonHelper.cs" />
     <Compile Include="InterestV2\Calculator\Helpers\InterestHelper.cs" />
@@ -89,7 +105,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Dispatcher\" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
