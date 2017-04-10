@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using Ragnar.Integration.InterestV3.Calculator.Contract;
 using Ragnar.Integration.InterestV3.Calculator.Helpers;
 using Ragnar.Integration.InterestV3.Model;
@@ -12,23 +11,19 @@ namespace Ragnar.Integration.UnitTesting.InterestV3.Calculator
     [TestClass]
     public class InterestCalculatorTest
     {
-        private Mock<IBankRepository> bankRepositoryMock;
-
-        private Container container;
+        private Bank bank;
 
         private Integration.InterestV3.Calculator.InterestCalculator interestCalculator;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            bankRepositoryMock = new Mock<IBankRepository>(MockBehavior.Strict);
-
-            container = new Container();
+            Container container = new Container();
 
             UnitTestBootstrapper.Register(container);
 
             interestCalculator = new Integration.InterestV3.Calculator.InterestCalculator(
-                bankRepository: bankRepositoryMock.Object,
+                bankRepository: new BankRepository_Mock(() => bank),
                 policyHelper: container.GetInstance<IPolicyHelper>(),
                 taxHelper: container.GetInstance<ITaxHelper>(),
                 interestHelper: container.GetInstance<IInterestHelper>(),
@@ -38,7 +33,7 @@ namespace Ragnar.Integration.UnitTesting.InterestV3.Calculator
         [TestMethod]
         public void ProjectDepositSummary_ApplyInterestRateOnly_ReturnProjectedSummary()
         {
-            Bank bank = ScenarioHelper.CreateBank(name: "BT");
+            bank = ScenarioHelper.CreateBank(name: "BT");
 
             TaxSystem taxSystem = bank.AddTaxSystem(effectiveDate: new DateTime(2017, 01, 01));
 
@@ -52,8 +47,6 @@ namespace Ragnar.Integration.UnitTesting.InterestV3.Calculator
             expectedSummary.AddInterest(asGross: 3M, asNet: 3M);
             expectedSummary.AddTax(asPercentage: 0M, asValue: 0M);
 
-            SetupMocks(bank);
-
             DepositProjectionSummary actualSummary = interestCalculator.ProjectDepositSummary(ScenarioHelper.userId, bank.Id, deposit.ID);
 
             RagnarAssert.AreEqual(expectedSummary, actualSummary);
@@ -62,7 +55,7 @@ namespace Ragnar.Integration.UnitTesting.InterestV3.Calculator
         [TestMethod]
         public void ProjectDepositSummary_ApplyInterestRateAndTaxIfEqual_ReturnProjectedSummary()
         {
-            Bank bank = ScenarioHelper.CreateBank(name: "BT");
+            bank = ScenarioHelper.CreateBank(name: "BT");
 
             bank.AddTaxSystem(effectiveDate: new DateTime(2017, 01, 01))
                 .AddTaxPolicy(policyType: PolicyType.TaxPercentage, comparisonAction: ComparisonAction.Equal, comparisonValue: 480000M, taxValue: 0.16M, order: 0);
@@ -77,16 +70,24 @@ namespace Ragnar.Integration.UnitTesting.InterestV3.Calculator
             expectedSummary.AddInterest(asGross: 14400M, asNet: 12096M);
             expectedSummary.AddTax(asPercentage: 0.16M, asValue: 2304M);
 
-            SetupMocks(bank);
-
             DepositProjectionSummary actualSummary = interestCalculator.ProjectDepositSummary(ScenarioHelper.userId, bank.Id, deposit.ID);
 
             RagnarAssert.AreEqual(expectedSummary, actualSummary);
         }
 
-        private void SetupMocks(Bank bank)
+        private class BankRepository_Mock : IBankRepository
         {
-            bankRepositoryMock.Setup(x => x.Detail(bank.Id, ScenarioHelper.userId)).Returns(bank);
+            private readonly Func<Bank> getterBank;
+
+            public BankRepository_Mock(Func<Bank> getterBank)
+            {
+                this.getterBank = getterBank;
+            }
+
+            public Bank Detail(Guid bankId, Guid userId)
+            {
+                return getterBank();
+            }
         }
     }
 }

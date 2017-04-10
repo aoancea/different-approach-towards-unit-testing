@@ -143,5 +143,27 @@ namespace Ragnar.Mock.UnitTesting.InterestV3
 
             return tax;
         }
+
+        public static Mock.InterestV3.Calculator.Contract.Tax CreateTax(decimal? asPercentage = null, decimal? asValue = null)
+        {
+            Mock.InterestV3.Calculator.Contract.Tax tax = new Mock.InterestV3.Calculator.Contract.Tax()
+            {
+                AsPercentage = asPercentage ?? decimal.Zero,
+                AsValue = asValue ?? decimal.Zero
+            };
+
+            return tax;
+        }
+
+        public static Mock.InterestV3.Calculator.Contract.Interest CreateInterest(decimal? asGross = null, decimal? asNet = null)
+        {
+            Mock.InterestV3.Calculator.Contract.Interest interest = new Mock.InterestV3.Calculator.Contract.Interest()
+            {
+                AsGross = asGross ?? decimal.Zero,
+                AsNet = asNet ?? decimal.Zero
+            };
+
+            return interest;
+        }
     }
 }

@@ -34,16 +34,14 @@ namespace Ragnar.Mock.UnitTesting.InterestV3.Calculator
                 taxHelper: taxHelperMock.Object,
                 interestHelper: interestHelperMock.Object,
                 interestRateHelper: interestRateHelperMock.Object);
+
+            MockExtensions.ResetVerifiables();
         }
 
         [TestCleanup]
         public void TestCleanup()
         {
-            bankRepositoryMock.VerifyAll();
-            policyHelperMock.VerifyAll();
-            taxHelperMock.VerifyAll();
-            interestHelperMock.VerifyAll();
-            interestRateHelperMock.VerifyAll();
+            MockExtensions.VerifyAll();
         }
 
         [TestMethod]
@@ -59,18 +57,15 @@ namespace Ragnar.Mock.UnitTesting.InterestV3.Calculator
 
             Deposit deposit = bankAccount.AddDeposit(startDate: new DateTime(2017, 01, 01), endDate: new DateTime(2017, 12, 31), amount: 100);
 
-            bankRepositoryMock.Setup(x => x.Detail(bank.Id, ScenarioHelper.userId)).Returns(bank);
-            // How did we get to this return value? Well we ran the tests from the Integration side or did the calculation our selves. What happens if the bussiness logic is more complex and we don't have any tests that integrate everything? We pretty much end up writing an invalid scenario
-            interestRateHelperMock.Setup(x => x.ForPeriod(bankInterestRate, deposit.StartDate, deposit.EndDate)).Returns(0.03M);
-
-            policyHelperMock.Setup(x => x.ApplyPolicy(It.Is<PolicyCalculationContext>(y => RagnarAssert.Match(ScenarioHelper.CreatePolicyCalculationContext(taxSystem.TaxPolicies, deposit), y)))).Returns(0M);
-
-            taxHelperMock.Setup(x => x.Tax(3.0M, 0M)).Returns(new Tax() { AsPercentage = 0M, AsValue = 0M });
-            interestHelperMock.Setup(x => x.Interest(3.0M, 0M)).Returns(new Mock.InterestV3.Calculator.Contract.Interest() { AsGross = 3M, AsNet = 3M });
+            bankRepositoryMock.Setup_Detail(bank);
+            interestRateHelperMock.Setup_ForPeriod(bankInterestRate: bankInterestRate, start: deposit.StartDate, end: deposit.EndDate, periodInterestRate: 0.03M);
+            policyHelperMock.Setup_ApplyPolicy(ScenarioHelper.CreatePolicyCalculationContext(taxSystem.TaxPolicies, deposit), 0M);
+            taxHelperMock.Setup_Tax(3.0M, 0M, ScenarioHelper.CreateTax(0M, 0M));
+            interestHelperMock.Setup_Interest(3.0M, 0M, ScenarioHelper.CreateInterest(3M, 3M));
 
             DepositProjectionSummary expectedSummary = ScenarioHelper.CreateDepositProjectionSummary(startDate: new DateTime(2017, 01, 01), endDate: new DateTime(2017, 12, 31), initialAmount: 100M);
-            expectedSummary.AddInterest(asGross: 3M, asNet: 3M);
             expectedSummary.AddTax(asPercentage: 0M, asValue: 0M);
+            expectedSummary.AddInterest(asGross: 3M, asNet: 3M);
 
             DepositProjectionSummary actualSummary = interestCalculator.ProjectDepositSummary(ScenarioHelper.userId, bank.Id, deposit.ID);
 
@@ -91,18 +86,15 @@ namespace Ragnar.Mock.UnitTesting.InterestV3.Calculator
 
             Deposit deposit = bankAccount.AddDeposit(startDate: new DateTime(2017, 01, 01), endDate: new DateTime(2017, 12, 31), amount: 480000M);
 
-            bankRepositoryMock.Setup(x => x.Detail(bank.Id, ScenarioHelper.userId)).Returns(bank);
-            // How did we get to this return value? Well we ran the tests from the Integration side or did the calculation our selves. What happens if the bussiness logic is more complex and we don't have any tests that integrate everything? We pretty much end up writing an invalid scenario
-            interestRateHelperMock.Setup(x => x.ForPeriod(bankInterestRate, deposit.StartDate, deposit.EndDate)).Returns(0.03M);
-
-            policyHelperMock.Setup(x => x.ApplyPolicy(It.Is<PolicyCalculationContext>(y => RagnarAssert.Match(ScenarioHelper.CreatePolicyCalculationContext(bank.TaxSystem[new DateTime(2017, 01, 01)].TaxPolicies, deposit), y)))).Returns(0.16M);
-
-            taxHelperMock.Setup(x => x.Tax(14400M, 0.16M)).Returns(new Tax() { AsPercentage = 0.16M, AsValue = 2304M });
-            interestHelperMock.Setup(x => x.Interest(14400M, 0.16M)).Returns(new Mock.InterestV3.Calculator.Contract.Interest() { AsGross = 14400M, AsNet = 12096M });
+            bankRepositoryMock.Setup_Detail(bank);
+            interestRateHelperMock.Setup_ForPeriod(bankInterestRate: bankInterestRate, start: deposit.StartDate, end: deposit.EndDate, periodInterestRate: 0.03M);
+            policyHelperMock.Setup_ApplyPolicy(ScenarioHelper.CreatePolicyCalculationContext(bank.TaxSystem[new DateTime(2017, 01, 01)].TaxPolicies, deposit), 0.16M);
+            taxHelperMock.Setup_Tax(14400M, 0.16M, ScenarioHelper.CreateTax(0.16M, 2304M));
+            interestHelperMock.Setup_Interest(14400M, 0.16M, ScenarioHelper.CreateInterest(14400M, 12096M));
 
             DepositProjectionSummary expectedSummary = ScenarioHelper.CreateDepositProjectionSummary(startDate: new DateTime(2017, 01, 01), endDate: new DateTime(2017, 12, 31), initialAmount: 480000M);
-            expectedSummary.AddInterest(asGross: 14400M, asNet: 12096M);
             expectedSummary.AddTax(asPercentage: 0.16M, asValue: 2304M);
+            expectedSummary.AddInterest(asGross: 14400M, asNet: 12096M);
 
             DepositProjectionSummary actualSummary = interestCalculator.ProjectDepositSummary(ScenarioHelper.userId, bank.Id, deposit.ID);
 
