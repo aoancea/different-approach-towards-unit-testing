@@ -15,6 +15,8 @@ namespace Ragnar.Integration.UnitTesting.Dispatcher
             container.Register(typeof(Integration.Dispatcher.Validation.CommandValidatorBase<>), assemblies);
             container.Register(typeof(Integration.Dispatcher.ICommandHandler<>), assemblies);
 
+            container.Register<Integration.Dispatcher.IIocContainer, Integration.Dispatcher.IocContainer>();
+
             container.Register<Integration.Dispatcher.CommandDispatcher>();
 
             container.Verify();

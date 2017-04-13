@@ -53,6 +53,7 @@
     <Compile Include="Dispatcher\ICommandDispatcher.cs" />
     <Compile Include="Dispatcher\ICommandHandler.cs" />
     <Compile Include="Dispatcher\ICommandResponse.cs" />
+    <Compile Include="Dispatcher\IocContainer.cs" />
     <Compile Include="Dispatcher\Validation\CommandValidatorBase.cs" />
     <Compile Include="Dispatcher\Validation\ICommandValidator.cs" />
     <Compile Include="Dispatcher\Validation\ValidationError.cs" />
