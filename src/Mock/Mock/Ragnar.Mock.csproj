@@ -44,6 +44,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dispatcher\Authorization\Authorizer.cs" />
+    <Compile Include="Dispatcher\Authorization\CommandAuthorizerBase.cs" />
+    <Compile Include="Dispatcher\Authorization\ICommandAuthorizer.cs" />
+    <Compile Include="Dispatcher\CommandDispatcher.cs" />
+    <Compile Include="Dispatcher\CommandResponse.cs" />
+    <Compile Include="Dispatcher\ICommand.cs" />
+    <Compile Include="Dispatcher\ICommandDispatcher.cs" />
+    <Compile Include="Dispatcher\ICommandHandler.cs" />
+    <Compile Include="Dispatcher\ICommandResponse.cs" />
+    <Compile Include="Dispatcher\Validation\CommandValidatorBase.cs" />
+    <Compile Include="Dispatcher\Validation\ICommandValidator.cs" />
+    <Compile Include="Dispatcher\Validation\ValidationError.cs" />
     <Compile Include="InterestV2\Calculator\Contract\IInterestCalculator.cs" />
     <Compile Include="InterestV2\Calculator\Helpers\ComparisonHelper.cs" />
     <Compile Include="InterestV2\Calculator\Helpers\InterestHelper.cs" />
@@ -92,9 +104,7 @@
     <Compile Include="Interest\Repository\IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Dispatcher\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
