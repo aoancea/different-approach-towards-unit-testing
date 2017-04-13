@@ -4,9 +4,9 @@ namespace Ragnar.Mock.Dispatcher
 {
     public class CommandDispatcher : ICommandDispatcher
     {
-        private readonly SimpleInjector.Container container;
+        private readonly IIocContainer container;
 
-        public CommandDispatcher(SimpleInjector.Container container)
+        public CommandDispatcher(IIocContainer container)
         {
             this.container = container;
         }

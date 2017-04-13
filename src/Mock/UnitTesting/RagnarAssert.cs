@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Ragnar.Mock.UnitTesting.InterestV3
+namespace Ragnar.Mock.UnitTesting
 {
     public static class RagnarAssert
     {
