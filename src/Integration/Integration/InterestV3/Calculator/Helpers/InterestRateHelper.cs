@@ -22,5 +22,12 @@ namespace Ragnar.Integration.InterestV3.Calculator.Helpers
 
             return interestRateDaysActive / 365 * interestRate.Value; // and yes, we don't care for bisect year in this example
         }
+
+        //public decimal ForPeriod(Model.BankInterestRate interestRate, DateTime start, DateTime end)
+        //{
+        //    decimal interestRateDaysActive = rangeHelper.DaysBetween(start, end);
+
+        //    return interestRateDaysActive / 365M * interestRate.Value; // and yes, we don't care for bisect year in this example
+        //}
     }
 }

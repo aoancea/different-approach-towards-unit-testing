@@ -100,5 +100,33 @@ namespace Ragnar.Mock.UnitTesting.InterestV3.Calculator
 
             RagnarAssert.AreEqual(expectedSummary, actualSummary);
         }
+
+        //[TestMethod]
+        //public void ProjectDepositSummary_ApplyInterestRateOnlyAndPeriodIsLessThan1Year_ReturnProjectedSummary()
+        //{
+        //    Bank bank = ScenarioHelper.CreateBank(id: Guid.NewGuid(), name: "BT");
+
+        //    TaxSystem taxSystem = bank.AddTaxSystem(effectiveDate: new DateTime(2017, 01, 01));
+
+        //    BankInterestRate bankInterestRate = bank.AddInterestRate(startDate: new DateTime(2017, 01, 01), value: 0.03M);
+
+        //    BankAccount bankAccount = bank.AddBankAccount(id: Guid.NewGuid());
+
+        //    Deposit deposit = bankAccount.AddDeposit(startDate: new DateTime(2017, 01, 01), endDate: new DateTime(2017, 12, 30), amount: 100);
+
+        //    bankRepositoryMock.Setup_Detail(bank);
+        //    interestRateHelperMock.Setup_ForPeriod(bankInterestRate: bankInterestRate, start: deposit.StartDate, end: deposit.EndDate, periodInterestRate: 0.02991780821M);
+        //    policyHelperMock.Setup_ApplyPolicy(ScenarioHelper.CreatePolicyCalculationContext(taxSystem.TaxPolicies, deposit), 0M);
+        //    taxHelperMock.Setup_Tax(2.99178082100M, 0M, ScenarioHelper.CreateTax(0M, 0M));
+        //    interestHelperMock.Setup_Interest(2.99178082100M, 0M, ScenarioHelper.CreateInterest(2.99178082100M, 2.99178082100M));
+
+        //    DepositProjectionSummary expectedSummary = ScenarioHelper.CreateDepositProjectionSummary(startDate: new DateTime(2017, 01, 01), endDate: new DateTime(2017, 12, 30), initialAmount: 100M);
+        //    expectedSummary.AddTax(asPercentage: 0M, asValue: 0M);
+        //    expectedSummary.AddInterest(asGross: 2.99178082100M, asNet: 2.99178082100M);
+
+        //    DepositProjectionSummary actualSummary = interestCalculator.ProjectDepositSummary(ScenarioHelper.userId, bank.Id, deposit.ID);
+
+        //    RagnarAssert.AreEqual(expectedSummary, actualSummary);
+        //}
     }
 }

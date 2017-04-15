@@ -75,6 +75,28 @@ namespace Ragnar.Integration.UnitTesting.InterestV3.Calculator
             RagnarAssert.AreEqual(expectedSummary, actualSummary);
         }
 
+        //[TestMethod]
+        //public void ProjectDepositSummary_ApplyInterestRateOnlyAndPeriodIsLessThan1Year_ReturnProjectedSummary()
+        //{
+        //    bank = ScenarioHelper.CreateBank(name: "BT");
+
+        //    TaxSystem taxSystem = bank.AddTaxSystem(effectiveDate: new DateTime(2017, 01, 01));
+
+        //    BankInterestRate bankInterestRate = bank.AddInterestRate(startDate: new DateTime(2017, 01, 01), value: 0.03M);
+
+        //    BankAccount bankAccount = bank.AddBankAccount(id: Guid.NewGuid());
+
+        //    Deposit deposit = bankAccount.AddDeposit(startDate: new DateTime(2017, 01, 01), endDate: new DateTime(2017, 12, 30), amount: 100M);
+
+        //    DepositProjectionSummary expectedSummary = ScenarioHelper.CreateDepositProjectionSummary(startDate: new DateTime(2017, 01, 01), endDate: new DateTime(2017, 12, 30), initialAmount: 100M);
+        //    expectedSummary.AddInterest(asGross: 2.9917808219178082191780821900M, asNet: 2.9917808219178082191780821900M);
+        //    expectedSummary.AddTax(asPercentage: 0M, asValue: 0M);
+
+        //    DepositProjectionSummary actualSummary = interestCalculator.ProjectDepositSummary(ScenarioHelper.userId, bank.Id, deposit.ID);
+
+        //    RagnarAssert.AreEqual(expectedSummary, actualSummary);
+        //}
+
         private class BankRepository_Mock : IBankRepository
         {
             private readonly Func<Bank> getterBank;
