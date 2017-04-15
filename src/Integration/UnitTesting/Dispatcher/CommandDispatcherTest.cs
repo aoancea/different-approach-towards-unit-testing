@@ -15,7 +15,8 @@ namespace Ragnar.Integration.UnitTesting.Dispatcher
 
             Bootstrapper.Initialize(container);
 
-            commandDispatcher = container.GetInstance<Integration.Dispatcher.CommandDispatcher>();
+            commandDispatcher = new Integration.Dispatcher.CommandDispatcher(new Integration.Dispatcher.IocContainer(container));
+            //commandDispatcher = new Integration.Dispatcher.CommandDispatcher(new FakePinkIocContainer());
         }
 
         #region Default handlers
