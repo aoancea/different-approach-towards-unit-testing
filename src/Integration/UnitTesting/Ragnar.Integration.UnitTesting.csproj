@@ -83,6 +83,9 @@
     <Compile Include="Interest\ScenarioHelper.cs" />
     <Compile Include="Interest\UnitTestBootstrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tooling\MockExtensions.cs" />
+    <Compile Include="Tooling\PersonServiceTest.cs" />
+    <Compile Include="Tooling\UnitTestHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

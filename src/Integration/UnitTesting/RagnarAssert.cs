@@ -25,7 +25,8 @@ namespace Ragnar.Integration.UnitTesting
 
         public static bool Match<E, A>(E expected, A actual, RagnarAssertOptions options)
         {
-            return CompareSyntax(expected, actual, options).Compare();
+            CompareSyntax(expected, actual, options).Assert();
+            return true;
         }
 
 

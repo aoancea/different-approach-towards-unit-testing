@@ -104,6 +104,12 @@
     <Compile Include="Interest\Repository\IBankRepository.cs" />
     <Compile Include="Interest\Repository\IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tooling\IPersonRepository.cs" />
+    <Compile Include="Tooling\Person.cs" />
+    <Compile Include="Tooling\PersonService.cs" />
+    <Compile Include="Tooling\Utilities\DateTimeProvider.cs" />
+    <Compile Include="Tooling\Utilities\GuidProvider.cs" />
+    <Compile Include="Tooling\Utilities\RagnarGuid.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
