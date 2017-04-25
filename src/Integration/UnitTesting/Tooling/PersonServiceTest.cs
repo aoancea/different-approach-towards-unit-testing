@@ -36,14 +36,9 @@ namespace Ragnar.Integration.UnitTesting.Tooling
         [TestMethod]
         public void PersonService_Save_Success()
         {
-            Integration.Tooling.Person person = new Integration.Tooling.Person() { Name = "Ragnar" };
+            Integration.Tooling.Person person = UnitTestHelper.CreatePerson();
 
-            Integration.Tooling.Person expectedPerson = new Integration.Tooling.Person()
-            {
-                ID = UnitTestHelper.guid1,
-                Name = "Ragnar",
-                RegistrationDate = new DateTime(2017, 01, 01)
-            };
+            Integration.Tooling.Person expectedPerson = UnitTestHelper.CreatePerson(id: UnitTestHelper.guid1, name: "Ragnar", registrationDate: new DateTime(2017, 01, 01));
 
             dateTimeProviderMock.Setup_DateTime(new DateTime(2017, 01, 01));
             personRepositoryMock.Setup_Save(expectedPerson);

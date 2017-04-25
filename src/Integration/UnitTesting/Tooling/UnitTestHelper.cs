@@ -9,6 +9,19 @@ namespace Ragnar.Integration.UnitTesting.Tooling
         public static Guid guid2 = new Guid("b3dff433-c9af-43dd-a556-6c45185b484f");
         public static Guid guid3 = new Guid("2f9fcb8a-2b97-4964-81b3-de49d3cde3ef");
 
+        public static Integration.Tooling.Person CreatePerson(Guid? id = null, string name = null, DateTime? registrationDate = null)
+        {
+            Integration.Tooling.Person person = new Integration.Tooling.Person()
+            {
+                ID = id ?? Guid.Empty,
+                Name = "Ragnar",
+                RegistrationDate = registrationDate ?? DateTime.MinValue
+            };
+
+            return person;
+        }
+
+
         public class GuidProvider : Integration.Tooling.Utilities.IGuidProvider
         {
             private readonly Queue<Guid> guidsCache;
